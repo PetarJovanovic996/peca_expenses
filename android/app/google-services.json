@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "251023512382",
+    "firebase_url": "https://expenses-acbaa-default-rtdb.firebaseio.com",
+    "project_id": "expenses-acbaa",
+    "storage_bucket": "expenses-acbaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251023512382:android:855c89c1b1ba7c273d126f",
+        "android_client_info": {
+          "package_name": "com.example.peca_expenses"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNk7C2zrszkmjKgfMIsq-ytYsEe41I5fI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

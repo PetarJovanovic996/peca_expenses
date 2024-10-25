@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:peca_expenses/firebase_options.dart';
 import 'package:peca_expenses/providers/add_expense_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:peca_expenses/screens/add_expense.dart';
@@ -17,7 +19,12 @@ final theme = ThemeData(
   textTheme: GoogleFonts.latoTextTheme(),
 );
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

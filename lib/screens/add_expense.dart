@@ -153,6 +153,9 @@ class AddExpense extends StatelessWidget {
                         lastDate: DateTime(2101),
                       );
                       if (pickedDate != null) {
+                        if (!context.mounted) {
+                          return;
+                        }
                         context
                             .read<AddExpenseProvider>()
                             .setSelectedDate(pickedDate);

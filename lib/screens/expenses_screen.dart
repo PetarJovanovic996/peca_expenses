@@ -9,11 +9,12 @@ class ExpensesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
+    context.read<AddExpenseProvider>().loadItems();
+    //final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
     final allItems = context.watch<AddExpenseProvider>().expenseItems;
 
     Widget content;
-    if (filteredItems.isEmpty && allItems.isNotEmpty) {
+    if (allItems.isNotEmpty) {
       content = ListView.builder(
         itemCount: allItems.length,
         itemBuilder: (ctx, index) => Dismissible(
@@ -36,22 +37,22 @@ class ExpensesScreen extends StatelessWidget {
           ),
         ),
       );
-    } else if (filteredItems.isNotEmpty) {
-      content = ListView.builder(
-        itemCount: filteredItems.length,
-        itemBuilder: (ctx, index) => ListTile(
-          title: Text(filteredItems[index].name),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(filteredItems[index].description),
-              Text(MyDateFormat().formatDate(filteredItems[index].date)),
-            ],
-          ),
-          leading: Icon(filteredItems[index].category.icon.icon),
-          trailing: Text('\$${filteredItems[index].amount}'),
-        ),
-      );
+      // } else if (filteredItems.isNotEmpty) {
+      //   content = ListView.builder(
+      //     itemCount: filteredItems.length,
+      //     itemBuilder: (ctx, index) => ListTile(
+      //       title: Text(filteredItems[index].name),
+      //       subtitle: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           Text(filteredItems[index].description),
+      //           Text(MyDateFormat().formatDate(filteredItems[index].date)),
+      //         ],
+      //       ),
+      //       leading: Icon(filteredItems[index].category.icon.icon),
+      //       trailing: Text('\$${filteredItems[index].amount}'),
+      //     ),
+      //   );
     } else {
       content = const Center(
         child: Text('Add Your Expanses'),
@@ -126,7 +127,9 @@ class ExpensesScreen extends StatelessWidget {
 }
 
 //visual overvierw of the users expenses with filtering option
-//implement pull to refresh logic for filtering
+//implement pull to refresh logic for filtering / kada su prikazatni 
+// da na dugme se automatski resetuje i lista i prikaze svi troskovi
+
 
 
 

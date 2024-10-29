@@ -10,10 +10,16 @@ class ExpensesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AddExpenseProvider>().loadItems();
-    //final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
+    Widget content = const Center(
+      child: Text('Add Your Expanses'),
+    );
+
     final allItems = context.watch<AddExpenseProvider>().expenseItems;
 
-    Widget content;
+    if (context.read<AddExpenseProvider>().isLoading) {
+      content = const Center(child: CircularProgressIndicator());
+    }
+
     if (allItems.isNotEmpty) {
       content = ListView.builder(
         itemCount: allItems.length,
@@ -53,9 +59,11 @@ class ExpensesScreen extends StatelessWidget {
       //       trailing: Text('\$${filteredItems[index].amount}'),
       //     ),
       //   );
-    } else {
-      content = const Center(
-        child: Text('Add Your Expanses'),
+    }
+
+    if (context.read<AddExpenseProvider>().error != null) {
+      content = Center(
+        child: Text(context.watch<AddExpenseProvider>().error!),
       );
     }
 

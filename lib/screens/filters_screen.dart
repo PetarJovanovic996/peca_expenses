@@ -64,6 +64,9 @@ class FiltersScreen extends StatelessWidget {
                     lastDate: DateTime(2101),
                   );
                   if (pickedDate != null) {
+                    if (!context.mounted) {
+                      return;
+                    }
                     context.read<FiltersProvider>().setSelectedDate(pickedDate);
                   }
                 },
@@ -92,6 +95,9 @@ class FiltersScreen extends StatelessWidget {
                     lastDate: DateTime(2027),
                   );
                   if (pickedDate != null) {
+                    if (!context.mounted) {
+                      return;
+                    }
                     context
                         .read<FiltersProvider>()
                         .setStartDate(pickedDate.start);

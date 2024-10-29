@@ -20,8 +20,11 @@ class AddExpenseProvider extends ChangeNotifier {
   var enteredAmount = '';
   DateTime selectedDate = DateTime.now();
   var selectedCategory = categories[Categories.other]!;
+  var isSending = false;
 
   List<ExpenseItem> expenseItems = [];
+  var isLoading = true;
+  String? error;
 
   void setEnteredName(String newValue) {
     enteredName = newValue;
@@ -55,15 +58,17 @@ class AddExpenseProvider extends ChangeNotifier {
     enteredAmount = '';
     selectedDate = DateTime.now();
     selectedCategory = categories[Categories.other]!;
+    isSending = false;
     notifyListeners();
   }
 
   void saveValues(context) async {
+    isSending = true;
     final url = Uri.https(
       'expenses-acbaa-default-rtdb.firebaseio.com',
       'peca_expenses.json',
     );
-    await http.post(
+    final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: json.encode(
@@ -77,7 +82,16 @@ class AddExpenseProvider extends ChangeNotifier {
       ),
     );
 
-    Navigator.of(context).pop();
+    final Map<String, dynamic> resData = json.decode(
+      response.body,
+    );
+    Navigator.of(context).pop(ExpenseItem(
+        id: resData['name'],
+        name: enteredName,
+        description: enteredDescription,
+        amount: enteredAmount,
+        date: selectedDate,
+        category: selectedCategory));
     resetValues();
 
     notifyListeners();
@@ -89,6 +103,12 @@ class AddExpenseProvider extends ChangeNotifier {
     final url = Uri.https(
         'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
     final response = await http.get(url);
+
+    if (response.statusCode >= 400) {
+      error = 'Failed to load data. Try later';
+      notifyListeners();
+    }
+
     final Map<String, dynamic> listData = jsonDecode(response.body);
     List<ExpenseItem> loadedItems = [];
     for (final item in listData.entries) {
@@ -107,15 +127,20 @@ class AddExpenseProvider extends ChangeNotifier {
           category: category));
     }
     expenseItems = loadedItems;
+    isLoading = false;
 
     notifyListeners();
   }
 
   void addExpense(context) async {
-    await Navigator.of(context).pushNamed<ExpenseItem>(
+    final newItem = await Navigator.of(context).pushNamed<ExpenseItem>(
       'addnew',
     );
-    loadItems();
+    if (newItem == null) {
+      return;
+    }
+    expenseItems.add(newItem);
+
     notifyListeners();
   }
 

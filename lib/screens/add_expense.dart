@@ -169,21 +169,33 @@ class AddExpense extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      _formKey.currentState?.reset();
-                      context.read<AddExpenseProvider>().resetValues();
-                    },
+                    onPressed: context.read<AddExpenseProvider>().isSending
+                        ? null
+                        : () {
+                            _formKey.currentState?.reset();
+                            context.read<AddExpenseProvider>().resetValues();
+                          },
                     //iz providera
                     child: const Text('Reset'),
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        context.read<AddExpenseProvider>().saveValues(context);
-                      }
-                    }, // iz providera
-                    child: const Text('Add expense'),
+                    onPressed: context.read<AddExpenseProvider>().isSending
+                        ? null
+                        : () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              context
+                                  .read<AddExpenseProvider>()
+                                  .saveValues(context);
+                            }
+                          }, // iz providera
+                    child: context.read<AddExpenseProvider>().isSending
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Text('Add expense'),
                   ),
                 ],
               )

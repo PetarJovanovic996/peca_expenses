@@ -81,6 +81,7 @@ class AddExpenseProvider extends ChangeNotifier {
         },
       ),
     );
+    print(response.statusCode);
 
     final Map<String, dynamic> resData = json.decode(
       response.body,
@@ -102,7 +103,9 @@ class AddExpenseProvider extends ChangeNotifier {
   void loadItems() async {
     final url = Uri.https(
         'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
+    //expenses-acbaa-default-rtdb.firebaseio.com
     final response = await http.get(url);
+    print(response.statusCode);
 
     if (response.statusCode >= 400) {
       error = 'Failed to load data. Try later';

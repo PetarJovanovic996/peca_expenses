@@ -4,12 +4,22 @@ import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/models/date.dart';
 
-class ExpensesScreen extends StatelessWidget {
+class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<ExpensesScreen> createState() => _ExpensesScreenState();
+}
+
+class _ExpensesScreenState extends State<ExpensesScreen> {
+  @override
+  void initState() {
+    super.initState();
     context.read<AddExpenseProvider>().loadItems();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Widget content = const Center(
       child: Text('Add Your Expanses'),
     );
@@ -137,7 +147,3 @@ class ExpensesScreen extends StatelessWidget {
 //visual overvierw of the users expenses with filtering option
 //implement pull to refresh logic for filtering / kada su prikazatni 
 // da na dugme se automatski resetuje i lista i prikaze svi troskovi
-
-
-
-

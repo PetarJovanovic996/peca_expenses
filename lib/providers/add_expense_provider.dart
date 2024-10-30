@@ -22,7 +22,7 @@ class AddExpenseProvider extends ChangeNotifier {
   var selectedCategory = categories[Categories.other]!;
   var isSending = false;
 
-  List<ExpenseItem> expenseItems = [];
+  List<ExpenseItems> expenseItems = [];
   var isLoading = true;
   String? error;
 
@@ -81,12 +81,12 @@ class AddExpenseProvider extends ChangeNotifier {
         },
       ),
     );
-    print(response.statusCode);
+    //print(response.statusCode);
 
     final Map<String, dynamic> resData = json.decode(
       response.body,
     );
-    Navigator.of(context).pop(ExpenseItem(
+    Navigator.of(context).pop(ExpenseItems(
         id: resData['name'],
         name: enteredName,
         description: enteredDescription,
@@ -98,14 +98,14 @@ class AddExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//psdna;as //dodaj nottify listeners dje trebas
+//LOAD
 
   void loadItems() async {
     final url = Uri.https(
         'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
     //expenses-acbaa-default-rtdb.firebaseio.com
     final response = await http.get(url);
-    print(response.statusCode);
+    // print(response.statusCode);
 
     if (response.statusCode >= 400) {
       error = 'Failed to load data. Try later';
@@ -113,7 +113,7 @@ class AddExpenseProvider extends ChangeNotifier {
     }
 
     final Map<String, dynamic> listData = jsonDecode(response.body);
-    List<ExpenseItem> loadedItems = [];
+    List<ExpenseItems> loadedItems = [];
     for (final item in listData.entries) {
       DateTime dateTime = DateTime.parse(item.value['date']);
       final category = categories.entries
@@ -121,7 +121,7 @@ class AddExpenseProvider extends ChangeNotifier {
               (catItem) => catItem.value.title == item.value['category'])
           .value;
 
-      loadedItems.add(ExpenseItem(
+      loadedItems.add(ExpenseItems(
           id: item.key,
           name: item.value['name'],
           description: item.value['description'],
@@ -134,9 +134,10 @@ class AddExpenseProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+// KRAJ LOADA
 
   void addExpense(context) async {
-    final newItem = await Navigator.of(context).pushNamed<ExpenseItem>(
+    final newItem = await Navigator.of(context).pushNamed<ExpenseItems>(
       'addnew',
     );
     if (newItem == null) {
@@ -147,9 +148,53 @@ class AddExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//p[dsam]sadasdasdasdas
-  void removeItem(ExpenseItem item) {
+  void removeItem(ExpenseItems item) {
     expenseItems.remove(item);
     notifyListeners();
   }
+
+  //
+  //
+  //EDIT
+  //
+  //
+
+// ovdje je UPDATE u firebase
+
+  void updateExpense(ExpenseItems item) async {
+    final url = Uri.https(
+      'expenses-acbaa-default-rtdb.firebaseio.com',
+      'peca_expenses/${item.id}.json',
+    );
+
+    final response = await http.patch(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(
+        {
+          'name': item.name,
+          'description': item.description,
+          'amount': item.amount,
+          'date': MyDateFormat().formatDate(item.date),
+          'category': item.category.title,
+        },
+      ),
+    );
+
+    if (response.statusCode >= 400) {
+      error = 'Failed to update expense. Try later.';
+      notifyListeners();
+    } else {
+      int index = expenseItems.indexWhere((e) => e.id == item.id);
+      if (index != -1) {
+        expenseItems[index] = item; // Ažuriraj u firebase
+      }
+    }
+    notifyListeners();
+  }
+
+  //KRAJ EDIT I UPDATE
+  //
+  //
+  //
 }

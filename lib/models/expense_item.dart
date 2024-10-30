@@ -1,7 +1,7 @@
 import 'package:peca_expenses/models/category.dart';
 
-class ExpenseItem {
-  const ExpenseItem({
+class ExpenseItems {
+  const ExpenseItems({
     required this.id,
     required this.name,
     required this.description,

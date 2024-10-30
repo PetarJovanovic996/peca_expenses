@@ -18,7 +18,7 @@ class FiltersProvider with ChangeNotifier {
   DateTime? toDate;
   DateTime? selectedDate;
 
-  List<ExpenseItem> filteredExpenses = [];
+  List<ExpenseItems> filteredExpenses = [];
 
   void filterExpenses(BuildContext context) {
     final allExpenses = context.read<AddExpenseProvider>().expenseItems;

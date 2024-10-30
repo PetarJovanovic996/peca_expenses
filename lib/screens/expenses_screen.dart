@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/providers/add_expense_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
+import 'package:peca_expenses/screens/edit_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/models/date.dart';
 
@@ -17,6 +19,29 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     super.initState();
     context.read<AddExpenseProvider>().loadItems();
   }
+//
+//
+//edit
+//
+//
+
+  void _editExpense(ExpenseItems item) {
+    Navigator.of(context)
+        .push(
+      MaterialPageRoute(
+        builder: (context) => EditExpenseScreen(item: item),
+      ),
+    )
+        .then((updatedItem) {
+      if (updatedItem != null) {
+        context.read<AddExpenseProvider>().updateExpense(updatedItem);
+      }
+    });
+  }
+  //
+  //EDIT
+  //
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +64,60 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
             context.read<AddExpenseProvider>().removeItem(allItems[index]);
           },
           key: ValueKey(allItems[index].name),
-          child: ListTile(
-            title: Text(allItems[index].name),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(allItems[index].description),
-                Text(MyDateFormat().formatDate(allItems[index].date)),
-              ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 5.0),
+              padding: const EdgeInsets.all(1.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 171, 168, 168),
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(
+                    color: const Color.fromARGB(255, 82, 21, 21), width: 2),
+              ),
+              child: ListTile(
+
+                  //EDIT
+                  //EDIT
+                  // onTap: () => _editExpense(allItems[index]),
+                  //EDIT
+                  //EDIT
+                  title: Text(
+                    allItems[index].name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(allItems[index].description),
+                      Text(
+                        MyDateFormat().formatDate(allItems[index].date),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  leading: Icon(allItems[index].category.icon.icon),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '\$${allItems[index].amount}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            _editExpense(allItems[index]);
+                          },
+                          icon: const Icon(Icons.edit)),
+                    ],
+                  )),
             ),
-            leading: Icon(allItems[index].category.icon.icon),
-            trailing: Text('\$${allItems[index].amount}'),
           ),
         ),
       );
@@ -114,7 +182,10 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         ),
         appBar: AppBar(
           title: const Center(
-            child: Text('My Expenses'),
+            child: Text(
+              'My Expenses',
+              style: TextStyle(fontSize: 32),
+            ),
           ),
           actions: [
             const SizedBox(
@@ -140,7 +211,10 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         //
         // OVDJE POCINJE LISTA
 
-        body: content);
+        body: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: content,
+        ));
   }
 }
 

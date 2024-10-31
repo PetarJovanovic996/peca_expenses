@@ -81,20 +81,28 @@ class AddExpenseProvider extends ChangeNotifier {
         },
       ),
     );
-    //print(response.statusCode);
 
-    final Map<String, dynamic> resData = json.decode(
-      response.body,
+    if (response.statusCode >= 400) {
+      isSending = false;
+      notifyListeners();
+      return;
+    }
+
+    final Map<String, dynamic> resData = json.decode(response.body);
+
+    final addedItem = ExpenseItems(
+      id: resData['name'],
+      name: enteredName,
+      description: enteredDescription,
+      amount: enteredAmount,
+      date: selectedDate,
+      category: selectedCategory,
     );
-    Navigator.of(context).pop(ExpenseItems(
-        id: resData['name'],
-        name: enteredName,
-        description: enteredDescription,
-        amount: enteredAmount,
-        date: selectedDate,
-        category: selectedCategory));
-    resetValues();
 
+    expenseItems.add(addedItem);
+    Navigator.of(context).pop(addedItem);
+    resetValues();
+    isSending = false; // Resetuj isSending
     notifyListeners();
   }
 

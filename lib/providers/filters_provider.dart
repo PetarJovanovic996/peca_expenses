@@ -20,14 +20,16 @@ class FiltersProvider with ChangeNotifier {
 
   List<ExpenseItems> filteredExpenses = [];
 
+  // TODO: Not a good idea to use
+  // context.read<AddExpenseProvider>().expenseItems
+  // in a different provider, refactor to pass the [expenseItems] as a method parameter
   void filterExpenses(BuildContext context) {
     final allExpenses = context.read<AddExpenseProvider>().expenseItems;
 
     filteredExpenses = allExpenses.where((expense) {
       bool isAfterStart = fromDate == null || expense.date.isAfter(fromDate!);
       bool isBeforeEnd = toDate == null || expense.date.isBefore(toDate!);
-      bool isExactDate =
-          selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
+      bool isExactDate = selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
 
       return (isAfterStart && isBeforeEnd) || isExactDate;
     }).toList();
@@ -64,8 +66,6 @@ class FiltersProvider with ChangeNotifier {
     notifyListeners();
   }
 }
-
-  
 
 // }
 

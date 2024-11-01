@@ -20,6 +20,8 @@ class EditExpenseScreen extends StatefulWidget {
 }
 
 class EditExpenseScreenState extends State<EditExpenseScreen> {
+  // TODO: Refactor entire logic, think how to implement provider for this.
+  // TODO: Goal is to remove all [TextEditingController] present
   late String name;
   late String description;
   late String amount;
@@ -145,6 +147,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                   date: date,
                   category: category,
                 );
+                // TODO: No need to parse [updatedItem] on pop(), refactor.
                 Navigator.of(context).pop(updatedItem);
               },
               child: const Text('Save'),

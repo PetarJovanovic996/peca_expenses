@@ -2,6 +2,24 @@ import 'package:flutter/material.dart';
 
 import 'package:peca_expenses/models/category.dart';
 
+// TODO: Simpler way is to create a list of categories, instead of a map
+// TODO: e.g
+// Categories.food: Category(
+//     title: 'Food',
+//     icon: Icon(
+//       Icons.local_pizza_outlined,
+//     ),
+//   ),
+
+// This can be refactored to be:
+// Category(
+//     title: Categories.food,
+//     icon: Icon(
+//       Icons.local_pizza_outlined,
+//     ),
+//   ),
+
+// When searching for a specific category, you can look up by title matching the enum.
 const categories = {
   Categories.food: Category(
     title: 'Food',

@@ -45,12 +45,16 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Refactor needed. Instead of using Widget content, declare a separate Widget,
+    // TODO: e.g [ExpensesScreenContent]
+    // By using custom widgets instead of variables we increase performance and cleaner code.
     Widget content = const Center(
       child: Text('Add Your Expanses'),
     );
 
     final allItems = context.watch<AddExpenseProvider>().expenseItems;
 
+    // TODO: Better to use [watch], because [isLoading] is a variable which is changing
     if (context.read<AddExpenseProvider>().isLoading) {
       content = const Center(child: CircularProgressIndicator());
     }
@@ -72,9 +76,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 171, 168, 168),
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(
-                    color: const Color.fromARGB(255, 82, 21, 21), width: 2),
+                border: Border.all(color: const Color.fromARGB(255, 82, 21, 21), width: 2),
               ),
+              // TODO: Refactor single list item, to a custom widget.
               child: ListTile(
 
                   //EDIT
@@ -139,6 +143,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       //   );
     }
 
+    // TODO: Use watch instead, error is a variable which changes in value.
     if (context.read<AddExpenseProvider>().error != null) {
       content = Center(
         child: Text(context.watch<AddExpenseProvider>().error!),
@@ -219,5 +224,5 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 }
 
 //visual overvierw of the users expenses with filtering option
-//implement pull to refresh logic for filtering / kada su prikazatni 
+//implement pull to refresh logic for filtering / kada su prikazatni
 // da na dugme se automatski resetuje i lista i prikaze svi troskovi

@@ -62,8 +62,11 @@ class AddExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // TODO: Always define types! Should be : (BuildContext context)
   void saveValues(context) async {
     isSending = true;
+
+    // TODO: Add try-catch block
     final url = Uri.https(
       'expenses-acbaa-default-rtdb.firebaseio.com',
       'peca_expenses.json',
@@ -109,8 +112,8 @@ class AddExpenseProvider extends ChangeNotifier {
 //LOAD
 
   void loadItems() async {
-    final url = Uri.https(
-        'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
+    // TODO: Add try-catch block
+    final url = Uri.https('expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
     //expenses-acbaa-default-rtdb.firebaseio.com
     final response = await http.get(url);
     // print(response.statusCode);
@@ -118,16 +121,14 @@ class AddExpenseProvider extends ChangeNotifier {
     if (response.statusCode >= 400) {
       error = 'Failed to load data. Try later';
       notifyListeners();
+      // TODO: Missing return statement?
     }
 
     final Map<String, dynamic> listData = jsonDecode(response.body);
     List<ExpenseItems> loadedItems = [];
     for (final item in listData.entries) {
       DateTime dateTime = DateTime.parse(item.value['date']);
-      final category = categories.entries
-          .firstWhere(
-              (catItem) => catItem.value.title == item.value['category'])
-          .value;
+      final category = categories.entries.firstWhere((catItem) => catItem.value.title == item.value['category']).value;
 
       loadedItems.add(ExpenseItems(
           id: item.key,
@@ -144,7 +145,9 @@ class AddExpenseProvider extends ChangeNotifier {
   }
 // KRAJ LOADA
 
+  // TODO: Define type.
   void addExpense(context) async {
+    // TODO: pushNamed<ExpenseItems> makes no sense. Fix this
     final newItem = await Navigator.of(context).pushNamed<ExpenseItems>(
       'addnew',
     );

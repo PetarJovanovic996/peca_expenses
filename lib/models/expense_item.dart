@@ -1,5 +1,7 @@
 import 'package:peca_expenses/models/category.dart';
 
+// TODO: When naming a model, use single instance names,
+// TODO: e.g [ExpenseItem], instead of [ExpenseItems]
 class ExpenseItems {
   const ExpenseItems({
     required this.id,

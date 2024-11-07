@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:peca_expenses/data/categories.dart';
 //import 'package:provider/provider.dart';
-import 'package:peca_expenses/models/category.dart';
+import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 
@@ -22,7 +22,7 @@ class AddExpenseProvider extends ChangeNotifier {
   var selectedCategory = categories[Categories.other]!;
   var isSending = false;
 
-  List<ExpenseItems> expenseItems = [];
+  List<ExpenseItem> expenseItems = [];
   var isLoading = true;
   String? error;
 
@@ -62,105 +62,125 @@ class AddExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO: Always define types! Should be : (BuildContext context)
-  void saveValues(context) async {
+  // done: Always define types! Should be : (BuildContext context)
+  void saveValues(BuildContext context) async {
     isSending = true;
+    notifyListeners();
 
-    // TODO: Add try-catch block
+    // done: Add try-catch block
     final url = Uri.https(
       'expenses-acbaa-default-rtdb.firebaseio.com',
       'peca_expenses.json',
     );
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode(
-        {
-          'name': enteredName,
-          'description': enteredDescription,
-          'amount': enteredAmount,
-          'date': MyDateFormat().formatDate(selectedDate),
-          'category': selectedCategory.title
-        },
-      ),
-    );
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(
+          {
+            'name': enteredName,
+            'description': enteredDescription,
+            'amount': enteredAmount,
+            'date': MyDateFormat.formatDate(selectedDate),
+            'category': selectedCategory.title
+          },
+        ),
+      );
 
-    if (response.statusCode >= 400) {
-      isSending = false;
+      if (response.statusCode >= 400) {
+        isSending = false;
+        notifyListeners();
+        return;
+      }
+
+      final Map<String, dynamic> resData = json.decode(response.body);
+
+      final addedItem = ExpenseItem(
+        id: resData['name'],
+        name: enteredName,
+        description: enteredDescription,
+        amount: enteredAmount,
+        date: selectedDate,
+        category: selectedCategory,
+      );
+
+      expenseItems.add(addedItem);
+      Navigator.of(context).pop(addedItem);
+      resetValues();
+      isSending = false; // Resetuj isSending
       notifyListeners();
-      return;
+    } catch (errors) {
+      isLoading = false;
+      notifyListeners();
     }
-
-    final Map<String, dynamic> resData = json.decode(response.body);
-
-    final addedItem = ExpenseItems(
-      id: resData['name'],
-      name: enteredName,
-      description: enteredDescription,
-      amount: enteredAmount,
-      date: selectedDate,
-      category: selectedCategory,
-    );
-
-    expenseItems.add(addedItem);
-    Navigator.of(context).pop(addedItem);
-    resetValues();
-    isSending = false; // Resetuj isSending
-    notifyListeners();
   }
 
 //LOAD
 
-  void loadItems() async {
-    // TODO: Add try-catch block
-    final url = Uri.https('expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
-    //expenses-acbaa-default-rtdb.firebaseio.com
-    final response = await http.get(url);
-    // print(response.statusCode);
+  void loadItems(BuildContext context) async {
+    // done: Add try-catch block
+    final url = Uri.https(
+        'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode >= 400) {
+        error = 'Failed to load data. Try later';
+        isLoading = false;
+        notifyListeners();
+        return;
+        // done: Missing return statement?
+      }
 
-    if (response.statusCode >= 400) {
-      error = 'Failed to load data. Try later';
+      if (response.body == 'null') {
+        isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      final Map<String, dynamic> listData = jsonDecode(response.body);
+      List<ExpenseItem> loadedItems = [];
+      for (final item in listData.entries) {
+        DateTime dateTime = DateTime.parse(item.value['date']);
+        final category = categories.entries
+            .firstWhere(
+                (catItem) => catItem.value.title == item.value['category'])
+            .value;
+
+        loadedItems.add(ExpenseItem(
+            id: item.key,
+            name: item.value['name'],
+            description: item.value['description'],
+            amount: item.value['amount'],
+            date: dateTime,
+            category: category));
+      }
+      expenseItems = loadedItems;
+      isLoading = false;
+
       notifyListeners();
-      // TODO: Missing return statement?
+
+      // print(response.statusCode);
+    } catch (errors) {
+      error = 'Failed to load data. Try later';
+      isLoading = false;
+      notifyListeners();
     }
-
-    final Map<String, dynamic> listData = jsonDecode(response.body);
-    List<ExpenseItems> loadedItems = [];
-    for (final item in listData.entries) {
-      DateTime dateTime = DateTime.parse(item.value['date']);
-      final category = categories.entries.firstWhere((catItem) => catItem.value.title == item.value['category']).value;
-
-      loadedItems.add(ExpenseItems(
-          id: item.key,
-          name: item.value['name'],
-          description: item.value['description'],
-          amount: item.value['amount'],
-          date: dateTime,
-          category: category));
-    }
-    expenseItems = loadedItems;
-    isLoading = false;
-
-    notifyListeners();
   }
 // KRAJ LOADA
 
-  // TODO: Define type.
-  void addExpense(context) async {
-    // TODO: pushNamed<ExpenseItems> makes no sense. Fix this
-    final newItem = await Navigator.of(context).pushNamed<ExpenseItems>(
-      'addnew',
-    );
-    if (newItem == null) {
-      return;
-    }
-    expenseItems.add(newItem);
-
-    notifyListeners();
-  }
-
-  void removeItem(ExpenseItems item) {
+  void removeItem(ExpenseItem item) async {
+    final index = expenseItems.indexOf(item);
     expenseItems.remove(item);
+    notifyListeners();
+    final url = Uri.https('expenses-acbaa-default-rtdb.firebaseio.com',
+        'peca_expenses/${item.id}.json');
+
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      expenseItems.insert(index, item);
+      notifyListeners();
+    }
+
     notifyListeners();
   }
 
@@ -172,7 +192,7 @@ class AddExpenseProvider extends ChangeNotifier {
 
 // ovdje je UPDATE u firebase
 
-  void updateExpense(ExpenseItems item) async {
+  void updateExpense(ExpenseItem item) async {
     final url = Uri.https(
       'expenses-acbaa-default-rtdb.firebaseio.com',
       'peca_expenses/${item.id}.json',
@@ -186,7 +206,7 @@ class AddExpenseProvider extends ChangeNotifier {
           'name': item.name,
           'description': item.description,
           'amount': item.amount,
-          'date': MyDateFormat().formatDate(item.date),
+          'date': MyDateFormat.formatDate(item.date),
           'category': item.category.title,
         },
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peca_expenses/models/category.dart';
+import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 // import 'package:peca_expenses/providers/add_expense_provider.dart';
@@ -13,7 +13,7 @@ import '../data/categories.dart';
 
 class EditExpenseScreen extends StatefulWidget {
   const EditExpenseScreen({super.key, required this.item});
-  final ExpenseItems item;
+  final ExpenseItem item;
 
   @override
   EditExpenseScreenState createState() => EditExpenseScreenState();
@@ -73,7 +73,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                 Expanded(
                   child: TextField(
                     decoration: const InputDecoration(labelText: 'Amount'),
-                    controller: TextEditingController(text: '\$${amount}'),
+                    controller: TextEditingController(text: '\$$amount'),
                     keyboardType: TextInputType.number,
                     onChanged: (value) => amount = value,
                   ),
@@ -111,7 +111,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  MyDateFormat().formatDate(date),
+                  MyDateFormat.formatDate(date),
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(
@@ -139,7 +139,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                final updatedItem = ExpenseItems(
+                final updatedItem = ExpenseItem(
                   id: widget.item.id,
                   name: name,
                   description: description,

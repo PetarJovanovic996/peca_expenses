@@ -17,7 +17,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AddExpenseProvider>().loadItems();
+    context.read<AddExpenseProvider>().loadItems(context);
   }
 //
 //
@@ -25,7 +25,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 //
 //
 
-  void _editExpense(ExpenseItems item) {
+  void _editExpense(ExpenseItem item) {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
@@ -54,8 +54,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
     final allItems = context.watch<AddExpenseProvider>().expenseItems;
 
-    // TODO: Better to use [watch], because [isLoading] is a variable which is changing
-    if (context.read<AddExpenseProvider>().isLoading) {
+    // done: Better to use [watch], because [isLoading] is a variable which is changing
+    if (context.watch<AddExpenseProvider>().isLoading) {
       content = const Center(child: CircularProgressIndicator());
     }
 
@@ -76,7 +76,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 171, 168, 168),
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(color: const Color.fromARGB(255, 82, 21, 21), width: 2),
+                border: Border.all(
+                    color: const Color.fromARGB(255, 82, 21, 21), width: 2),
               ),
               // TODO: Refactor single list item, to a custom widget.
               child: ListTile(
@@ -95,7 +96,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                     children: [
                       Text(allItems[index].description),
                       Text(
-                        MyDateFormat().formatDate(allItems[index].date),
+                        MyDateFormat.formatDate(allItems[index].date),
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

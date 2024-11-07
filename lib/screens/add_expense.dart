@@ -39,7 +39,10 @@ class AddExpense extends StatelessWidget {
                   label: Text('Name'),
                 ),
                 validator: (newValue) {
-                  if (newValue == null || newValue.isEmpty || newValue.trim().length <= 1 || newValue.trim().length > 50) {
+                  if (newValue == null ||
+                      newValue.isEmpty ||
+                      newValue.trim().length <= 1 ||
+                      newValue.trim().length > 50) {
                     return 'Invalid input';
                   }
                   return null;
@@ -52,19 +55,25 @@ class AddExpense extends StatelessWidget {
               Column(
                 children: [
                   TextFormField(
-                    initialValue: context.watch<AddExpenseProvider>().enteredDescription,
+                    initialValue:
+                        context.watch<AddExpenseProvider>().enteredDescription,
                     maxLength: 50,
                     decoration: const InputDecoration(
                       label: Text('Description'),
                     ),
                     validator: (newValue) {
-                      if (newValue == null || newValue.isEmpty || newValue.trim().length <= 1 || newValue.trim().length > 50) {
+                      if (newValue == null ||
+                          newValue.isEmpty ||
+                          newValue.trim().length <= 1 ||
+                          newValue.trim().length > 50) {
                         return 'Invalid input';
                       }
                       return null;
                     },
                     onChanged: (newValue) {
-                      context.read<AddExpenseProvider>().setEnteredDescription(newValue); // iz providera
+                      context
+                          .read<AddExpenseProvider>()
+                          .setEnteredDescription(newValue); // iz providera
                     },
                   ),
                 ],
@@ -79,22 +88,30 @@ class AddExpense extends StatelessWidget {
                         prefix: Text('\$'),
                       ),
                       keyboardType: TextInputType.number,
-                      initialValue: context.watch<AddExpenseProvider>().enteredAmount, // iz providera
+                      initialValue: context
+                          .watch<AddExpenseProvider>()
+                          .enteredAmount, // iz providera
                       validator: (newValue) {
-                        if (newValue == null || newValue.isEmpty || int.tryParse(newValue) == null || int.tryParse(newValue)! <= 0) {
+                        if (newValue == null ||
+                            newValue.isEmpty ||
+                            int.tryParse(newValue) == null ||
+                            int.tryParse(newValue)! <= 0) {
                           return 'Invalid input';
                         }
                         return null;
                       },
                       onChanged: (newValue) {
-                        context.read<AddExpenseProvider>().setEnteredAmount(newValue); // iz providera
+                        context
+                            .read<AddExpenseProvider>()
+                            .setEnteredAmount(newValue); // iz providera
                       },
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonFormField(
-                      value: context.watch<AddExpenseProvider>().selectedCategory,
+                      value:
+                          context.watch<AddExpenseProvider>().selectedCategory,
                       items: [
                         for (final category in categories.entries)
                           DropdownMenuItem(
@@ -110,7 +127,9 @@ class AddExpense extends StatelessWidget {
                               ))
                       ],
                       onChanged: (newValue) {
-                        context.read<AddExpenseProvider>().setSelectedCategory(newValue!);
+                        context
+                            .read<AddExpenseProvider>()
+                            .setSelectedCategory(newValue!);
                       }, // iz providera
                     ),
                   )
@@ -121,7 +140,8 @@ class AddExpense extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    MyDateFormat().formatDate(context.watch<AddExpenseProvider>().selectedDate),
+                    MyDateFormat.formatDate(
+                        context.watch<AddExpenseProvider>().selectedDate),
                     // iz providera
                     style: const TextStyle(fontSize: 16),
                   ),
@@ -140,7 +160,9 @@ class AddExpense extends StatelessWidget {
                         if (!context.mounted) {
                           return;
                         }
-                        context.read<AddExpenseProvider>().setSelectedDate(pickedDate);
+                        context
+                            .read<AddExpenseProvider>()
+                            .setSelectedDate(pickedDate);
                       }
                     },
                     icon: const Icon(Icons.calendar_month_outlined),
@@ -166,7 +188,9 @@ class AddExpense extends StatelessWidget {
                         ? null
                         : () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              context.read<AddExpenseProvider>().saveValues(context);
+                              context
+                                  .read<AddExpenseProvider>()
+                                  .saveValues(context);
                             }
                           }, // iz providera
                     child: context.read<AddExpenseProvider>().isSending

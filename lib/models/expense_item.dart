@@ -1,9 +1,9 @@
-import 'package:peca_expenses/models/category.dart';
+import 'package:peca_expenses/data/category.dart';
 
-// TODO: When naming a model, use single instance names,
-// TODO: e.g [ExpenseItem], instead of [ExpenseItems]
-class ExpenseItems {
-  const ExpenseItems({
+// done: When naming a model, use single instance names,
+// done: e.g [ExpenseItem], instead of [ExpenseItems]
+class ExpenseItem {
+  const ExpenseItem({
     required this.id,
     required this.name,
     required this.description,

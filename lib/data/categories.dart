@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:peca_expenses/models/category.dart';
+import 'package:peca_expenses/data/category.dart';
 
 // TODO: Simpler way is to create a list of categories, instead of a map
 // TODO: e.g

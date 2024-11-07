@@ -52,7 +52,7 @@ class FiltersScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text((context.watch<FiltersProvider>().selectedDate != null)
-                  ? MyDateFormat().formatDate(
+                  ? MyDateFormat.formatDate(
                       context.watch<FiltersProvider>().selectedDate!)
                   : 'Enter your Date'),
               IconButton(
@@ -81,9 +81,9 @@ class FiltersScreen extends StatelessWidget {
             children: [
               Text((context.watch<FiltersProvider>().fromDate != null &&
                       context.watch<FiltersProvider>().toDate != null)
-                  ? '${MyDateFormat().formatDate(
+                  ? '${MyDateFormat.formatDate(
                       context.watch<FiltersProvider>().fromDate!,
-                    )} - ${MyDateFormat().formatDate(
+                    )} - ${MyDateFormat.formatDate(
                       context.watch<FiltersProvider>().toDate!,
                     )}'
                   : 'Set your Data Range'),

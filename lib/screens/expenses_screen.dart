@@ -19,29 +19,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     super.initState();
     context.read<AddExpenseProvider>().loadItems(context);
   }
-//
-//
-//edit
-//
-//
-
-  void _editExpense(ExpenseItem item) {
-    Navigator.of(context)
-        .push(
-      MaterialPageRoute(
-        builder: (context) => EditExpenseScreen(item: item),
-      ),
-    )
-        .then((updatedItem) {
-      if (updatedItem != null) {
-        context.read<AddExpenseProvider>().updateExpense(updatedItem);
-      }
-    });
-  }
-  //
-  //EDIT
-  //
-  //
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +94,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       ),
                       IconButton(
                           onPressed: () {
-                            _editExpense(allItems[index]);
+                            context
+                                .read<AddExpenseProvider>()
+                                .editExpense(allItems[index], ctx);
                           },
                           icon: const Icon(Icons.edit)),
                     ],
@@ -144,8 +123,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       //   );
     }
 
-    // TODO: Use watch instead, error is a variable which changes in value.
-    if (context.read<AddExpenseProvider>().error != null) {
+    // done: Use watch instead, error is a variable which changes in value.
+    if (context.watch<AddExpenseProvider>().error != null) {
       content = Center(
         child: Text(context.watch<AddExpenseProvider>().error!),
       );

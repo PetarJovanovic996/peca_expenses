@@ -12,6 +12,7 @@ import 'package:peca_expenses/data/categories.dart';
 import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
+import 'package:peca_expenses/screens/edit_screen.dart';
 
 class AddExpenseProvider extends ChangeNotifier {
   var enteredId = '';
@@ -105,6 +106,9 @@ class AddExpenseProvider extends ChangeNotifier {
       );
 
       expenseItems.add(addedItem);
+      if (!context.mounted) {
+        return;
+      }
       Navigator.of(context).pop(addedItem);
       resetValues();
       isSending = false; // Resetuj isSending
@@ -222,6 +226,25 @@ class AddExpenseProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void editExpense(ExpenseItem item, BuildContext context) {
+    Navigator.of(context)
+        .push(
+      MaterialPageRoute(
+        builder: (context) => EditExpenseScreen(item: item),
+      ),
+    )
+        .then((updatedItem) {
+      if (updatedItem != null) {
+        if (!context.mounted) {
+          return;
+        }
+        updateExpense(updatedItem);
+        notifyListeners();
+      }
+      notifyListeners();
+    });
   }
 
   //KRAJ EDIT I UPDATE

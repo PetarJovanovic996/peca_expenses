@@ -32,8 +32,8 @@ class AddExpense extends StatelessWidget {
               // TODO: Create a widget to serve as a wrapper for all [TextFormField],
               // TODO: refactor everywhere where it's used.
               TextFormField(
-                // TODO: Since initialValue is called only when the widget is rebuild we can use [read] instead of watch
-                initialValue: context.watch<AddExpenseProvider>().enteredName,
+                // done: Since initialValue is called only when the widget is rebuild we can use [read] instead of watch
+                initialValue: context.read<AddExpenseProvider>().enteredName,
                 maxLength: 50,
                 decoration: const InputDecoration(
                   label: Text('Name'),
@@ -51,32 +51,28 @@ class AddExpense extends StatelessWidget {
                   context.read<AddExpenseProvider>().setEnteredName(newValue);
                 },
               ),
-              // TODO: Unnecessary column
-              Column(
-                children: [
-                  TextFormField(
-                    initialValue:
-                        context.watch<AddExpenseProvider>().enteredDescription,
-                    maxLength: 50,
-                    decoration: const InputDecoration(
-                      label: Text('Description'),
-                    ),
-                    validator: (newValue) {
-                      if (newValue == null ||
-                          newValue.isEmpty ||
-                          newValue.trim().length <= 1 ||
-                          newValue.trim().length > 50) {
-                        return 'Invalid input';
-                      }
-                      return null;
-                    },
-                    onChanged: (newValue) {
-                      context
-                          .read<AddExpenseProvider>()
-                          .setEnteredDescription(newValue); // iz providera
-                    },
-                  ),
-                ],
+              // done: Unnecessary column
+              TextFormField(
+                initialValue:
+                    context.watch<AddExpenseProvider>().enteredDescription,
+                maxLength: 50,
+                decoration: const InputDecoration(
+                  label: Text('Description'),
+                ),
+                validator: (newValue) {
+                  if (newValue == null ||
+                      newValue.isEmpty ||
+                      newValue.trim().length <= 1 ||
+                      newValue.trim().length > 50) {
+                    return 'Invalid input';
+                  }
+                  return null;
+                },
+                onChanged: (newValue) {
+                  context
+                      .read<AddExpenseProvider>()
+                      .setEnteredDescription(newValue); // iz providera
+                },
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,

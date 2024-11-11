@@ -12,7 +12,7 @@ import '../data/categories.dart';
 // import 'package:peca_expenses/models/date.dart';
 
 class EditExpenseScreen extends StatefulWidget {
-  EditExpenseScreen({super.key, required this.item});
+  const EditExpenseScreen({super.key, required this.item});
   final ExpenseItem item;
 
   @override

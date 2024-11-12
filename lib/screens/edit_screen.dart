@@ -74,22 +74,25 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
               ),
 
               // done: Unnecessary column
-              TextFormField(
-                initialValue: description,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Description'),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: TextFormField(
+                  initialValue: description,
+                  maxLength: 50,
+                  decoration: const InputDecoration(
+                    label: Text('Description'),
+                  ),
+                  validator: (newValue) {
+                    if (newValue == null ||
+                        newValue.isEmpty ||
+                        newValue.trim().length <= 1 ||
+                        newValue.trim().length > 50) {
+                      return 'Invalid input';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) => description = value,
                 ),
-                validator: (newValue) {
-                  if (newValue == null ||
-                      newValue.isEmpty ||
-                      newValue.trim().length <= 1 ||
-                      newValue.trim().length > 50) {
-                    return 'Invalid input';
-                  }
-                  return null;
-                },
-                onChanged: (value) => description = value,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -155,7 +158,10 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                               value: category.value,
                               child: Row(
                                 children: [
-                                  Icon(category.value.icon.icon),
+                                  Icon(
+                                    category.value.icon.icon,
+                                    color: const Color.fromARGB(255, 43, 5, 18),
+                                  ),
                                   const SizedBox(
                                     width: 6,
                                   ),
@@ -177,7 +183,6 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                 children: [
                   Text(
                     MyDateFormat.formatDate(date),
-                    style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(
                     height: 20,
@@ -198,7 +203,10 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                         });
                       }
                     },
-                    icon: const Icon(Icons.calendar_month_outlined),
+                    icon: const Icon(
+                      Icons.calendar_month_outlined,
+                      color: Color.fromARGB(255, 43, 5, 18),
+                    ),
                   ),
                 ],
               ),

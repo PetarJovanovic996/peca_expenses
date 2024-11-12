@@ -23,18 +23,17 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomAppBar(
-          color: const Color.fromARGB(255, 46, 43, 43),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                color: Colors.white,
                 onPressed: () {
                   Navigator.pushNamed(context, 'filter');
                 },
                 icon: const Icon(
                   Icons.filter_alt_sharp,
                   size: 40,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(
@@ -60,7 +59,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           title: const Center(
             child: Text(
               'My Expenses',
-              style: TextStyle(fontSize: 32),
             ),
           ),
           actions: [
@@ -73,11 +71,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               },
               label: const Text(
                 'Clear all Filters',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.white),
               ),
               icon: const Icon(
                 Icons.filter_alt_off_sharp,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
           ],

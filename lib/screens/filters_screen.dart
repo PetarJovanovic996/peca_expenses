@@ -14,7 +14,7 @@ import 'package:peca_expenses/models/date.dart';
 
 // odje definisati filtersScreen dje ce look filtriranja A NE LOGIKA
 // da se definise
-// toDo - peca da provjeri za watch sintaksu pri pozivanju text-a u row widgetu!
+// done - peca da provjeri za watch sintaksu pri pozivanju text-a u row widgetu!
 
 class FiltersScreen extends StatelessWidget {
   const FiltersScreen({super.key});
@@ -23,7 +23,6 @@ class FiltersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: const Color.fromARGB(255, 46, 43, 43),
         child: TextButton.icon(
           onPressed: () {
             context.read<FiltersProvider>().clearFilters();
@@ -34,8 +33,8 @@ class FiltersScreen extends StatelessWidget {
           ),
           icon: const Icon(
             Icons.filter_alt_off_sharp,
-            color: Colors.white,
             size: 40,
+            color: Colors.white,
           ),
         ),
       ),

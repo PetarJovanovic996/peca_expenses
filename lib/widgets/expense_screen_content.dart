@@ -10,7 +10,6 @@ class ExpenseScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final allItems = context.watch<AddExpenseProvider>().expenseItems;
-    ;
 
     if (context.watch<AddExpenseProvider>().isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -40,7 +39,7 @@ class ExpenseScreenContent extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 5.0),
             padding: const EdgeInsets.all(1.0),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 171, 168, 168),
+              color: const Color.fromARGB(255, 206, 182, 190),
               borderRadius: BorderRadius.circular(15.0),
               border: Border.all(
                   color: const Color.fromARGB(255, 82, 21, 21), width: 2),

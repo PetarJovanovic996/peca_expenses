@@ -114,7 +114,10 @@ class AddExpense extends StatelessWidget {
                               value: category.value,
                               child: Row(
                                 children: [
-                                  Icon(category.value.icon.icon),
+                                  Icon(
+                                    category.value.icon.icon,
+                                    color: const Color.fromARGB(255, 43, 5, 18),
+                                  ),
                                   const SizedBox(
                                     width: 6,
                                   ),
@@ -139,7 +142,6 @@ class AddExpense extends StatelessWidget {
                     MyDateFormat.formatDate(
                         context.watch<AddExpenseProvider>().selectedDate),
                     // iz providera
-                    style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(
                     height: 20,
@@ -161,7 +163,10 @@ class AddExpense extends StatelessWidget {
                             .setSelectedDate(pickedDate);
                       }
                     },
-                    icon: const Icon(Icons.calendar_month_outlined),
+                    icon: const Icon(
+                      Icons.calendar_month_outlined,
+                      color: Color.fromARGB(255, 43, 5, 18),
+                    ),
                   ),
                 ],
               ),
@@ -176,7 +181,10 @@ class AddExpense extends StatelessWidget {
                             context.read<AddExpenseProvider>().resetValues();
                           },
                     //iz providera
-                    child: const Text('Reset'),
+                    child: const Text(
+                      'Reset',
+                      style: TextStyle(color: Color.fromARGB(255, 43, 5, 18)),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(

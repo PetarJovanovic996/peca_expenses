@@ -8,7 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:peca_expenses/main.dart';
+import 'package:peca_expenses/main/main.dart';
+import 'package:peca_expenses/main/my_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

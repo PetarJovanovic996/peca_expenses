@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:peca_expenses/main/my_theme.dart';
 import 'package:peca_expenses/main/routes.dart';
 import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:peca_expenses/providers/auth_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -19,13 +20,16 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => FiltersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
         )
       ],
       child: MaterialApp(
         theme: myTheme,
         debugShowCheckedModeBanner: false,
         title: 'Named Routes',
-        initialRoute: 'expenses', //dodati logIn skrin i kao initial
+        initialRoute: 'loginscreen', //dodati logIn skrin i kao initial
         //
         //
         // done: For larger apps with 20+ routes, it's a better practice to define

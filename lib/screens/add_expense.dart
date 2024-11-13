@@ -31,6 +31,7 @@ class AddExpense extends StatelessWidget {
             children: [
               // TODO: Create a widget to serve as a wrapper for all [TextFormField],
               // TODO: refactor everywhere where it's used.
+              //veci mi je to posa :D
               TextFormField(
                 // done: Since initialValue is called only when the widget is rebuild we can use [read] instead of watch
                 initialValue: context.read<AddExpenseProvider>().enteredName,

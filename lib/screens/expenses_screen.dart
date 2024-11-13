@@ -3,6 +3,7 @@ import 'package:peca_expenses/providers/add_expense_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:peca_expenses/widgets/expense_screen_content.dart';
 import 'package:provider/provider.dart';
+import 'package:peca_expenses/providers/auth_provider.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -20,6 +21,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // todo
+    //
+    //
+
+    //
+    //aloooo
+    //
+
     return Scaffold(
         bottomNavigationBar: BottomAppBar(
           child: Row(
@@ -77,6 +86,23 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 color: Colors.white,
               ),
             ),
+            //
+            //todo
+            //
+            IconButton(
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () async {
+                await context.read<AuthProvider>().signOut();
+                if (!context.mounted) {
+                  return;
+                }
+                Navigator.pushReplacementNamed(
+                    context, 'loginscreen'); // Usmeravamo na login ekran
+              },
+            ),
+            //
+            //aloo
+            //
           ],
         ),
         body: const Padding(

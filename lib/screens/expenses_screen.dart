@@ -21,14 +21,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // todo
-    //
-    //
-
-    //
-    //aloooo
-    //
-
     return Scaffold(
         bottomNavigationBar: BottomAppBar(
           child: Row(

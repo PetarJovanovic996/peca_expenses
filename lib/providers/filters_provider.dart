@@ -1,6 +1,7 @@
 //import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+
 //import 'package:peca_expenses/data/categories.dart';
 
 //import 'package:provider/provider.dart';
@@ -24,36 +25,32 @@ class FiltersProvider with ChangeNotifier {
   // in a different provider, refactor to pass the [expenseItems] as a method parameter
   void filterExpenses(List<ExpenseItem> expenseItems) {
     filteredExpenses = expenseItems.where((expense) {
-      bool isAfterStart = fromDate == null || expense.date.isAfter(fromDate!);
-      bool isBeforeEnd = toDate == null || expense.date.isBefore(toDate!);
+      bool isInRange = (fromDate == null || expense.date.isAfter(fromDate!)) &&
+          (toDate == null || expense.date.isBefore(toDate!));
       bool isExactDate =
           selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
 
-      return (isAfterStart && isBeforeEnd) || isExactDate;
+      return isInRange || isExactDate;
     }).toList();
 
     notifyListeners();
   }
 
-  // imam listu
-  // pravi se bool kad je true ide exp item
-  //kad je false ide filters
-  // pravi se void funk u kojoj se dopunjava lista
-  //funk filterExpenses da bude void ... umj return ide filterexpense= ...
-  // na ui se pozivam na tu novu listu if is true na nju, if else expensesList
-
   void setSelectedDate(DateTime date) {
     selectedDate = date;
+
     notifyListeners();
   }
 
   void setStartDate(DateTime startDate) {
     fromDate = startDate;
+
     notifyListeners();
   }
 
   void setEndDate(DateTime endDate) {
     toDate = endDate;
+
     notifyListeners();
   }
 
@@ -61,6 +58,8 @@ class FiltersProvider with ChangeNotifier {
     fromDate = null;
     toDate = null;
     selectedDate = null;
+    filteredExpenses.clear();
+
     notifyListeners();
   }
 }

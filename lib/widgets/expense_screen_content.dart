@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:peca_expenses/providers/filters_provider.dart';
 //import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/models/date.dart';
@@ -9,12 +11,16 @@ class ExpenseScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
     final allItems = context.watch<AddExpenseProvider>().expenseItems;
+
+    final List<ExpenseItem> itemsToDisplay =
+        filteredItems.isNotEmpty ? filteredItems : allItems;
 
     if (context.watch<AddExpenseProvider>().isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (allItems.isEmpty) {
+    if (itemsToDisplay.isEmpty) {
       return const Center(
         child: Text('Add Your Expanses'),
       );
@@ -26,13 +32,13 @@ class ExpenseScreenContent extends StatelessWidget {
     }
 
     return ListView.builder(
-      itemCount: allItems.length,
+      itemCount: itemsToDisplay.length,
       itemBuilder: (ctx, index) => Dismissible(
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          context.read<AddExpenseProvider>().removeItem(allItems[index]);
+          context.read<AddExpenseProvider>().removeItem(itemsToDisplay[index]);
         },
-        key: ValueKey(allItems[index].name),
+        key: ValueKey(itemsToDisplay[index].name),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Container(
@@ -46,28 +52,28 @@ class ExpenseScreenContent extends StatelessWidget {
             ),
             child: ListTile(
                 title: Text(
-                  allItems[index].name,
+                  itemsToDisplay[index].name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(allItems[index].description),
+                    Text(itemsToDisplay[index].description),
                     Text(
-                      MyDateFormat.formatDate(allItems[index].date),
+                      MyDateFormat.formatDate(itemsToDisplay[index].date),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
-                leading: Icon(allItems[index].category.icon.icon),
+                leading: Icon(itemsToDisplay[index].category.icon.icon),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      '\$${allItems[index].amount}',
+                      '\$${itemsToDisplay[index].amount}',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(
@@ -77,7 +83,7 @@ class ExpenseScreenContent extends StatelessWidget {
                         onPressed: () {
                           context
                               .read<AddExpenseProvider>()
-                              .editExpense(allItems[index], ctx);
+                              .editExpense(itemsToDisplay[index], ctx);
                         },
                         icon: const Icon(Icons.edit)),
                   ],

@@ -55,7 +55,6 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
           child: Column(
             children: [
               TextFormField(
-                // done: Since initialValue is called only when the widget is rebuild we can use [read] instead of watch
                 initialValue: name,
                 maxLength: 50,
                 decoration: const InputDecoration(
@@ -117,35 +116,6 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                       onChanged: (value) => amount = value,
                     ),
                   ),
-
-                  // TextField(
-                  //   decoration: const InputDecoration(labelText: 'Name'),
-                  //   controller: TextEditingController(text: name),
-                  //   onChanged: (value) => name = value,
-                  // ),
-                  // const SizedBox(
-                  //   height: 16,
-                  // ),
-                  // TextField(
-
-                  //   decoration: const InputDecoration(labelText: 'Description'),
-                  //   controller: TextEditingController(text: description),
-                  //   onChanged: (value) => description = value,
-                  // ),
-                  // const SizedBox(
-                  //   height: 16,
-                  // ),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                  //   children: [
-                  //     Expanded(
-                  //       child: TextField(
-                  //         decoration: const InputDecoration(labelText: 'Amount'),
-                  //         controller: TextEditingController(text: amount),
-                  //         keyboardType: TextInputType.number,
-                  //         onChanged: (value) => amount = value,
-                  //       ),
-                  //     ),
                   const SizedBox(
                     width: 8,
                   ),
@@ -188,8 +158,6 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                     height: 20,
                   ),
                   IconButton(
-                    //onChanged: (value) => category = value!
-
                     onPressed: () async {
                       final pickedDate = await showDatePicker(
                         context: context,

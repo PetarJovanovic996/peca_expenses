@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:peca_expenses/data/dummy_items.dart';
+import 'package:peca_expenses/providers/add_expense_provider.dart';
 
 //import 'package:peca_expenses/data/categories.dart';
 //import 'package:peca_expenses/providers/add_expense_provider.dart';
@@ -26,6 +28,11 @@ class FiltersScreen extends StatelessWidget {
         child: TextButton.icon(
           onPressed: () {
             context.read<FiltersProvider>().clearFilters();
+            context.read<FiltersProvider>().filterExpenses(
+                context.read<AddExpenseProvider>().expenseItems);
+            //
+            //
+            //ovo
           },
           label: const Text(
             'Clear all Filters',
@@ -67,6 +74,11 @@ class FiltersScreen extends StatelessWidget {
                       return;
                     }
                     context.read<FiltersProvider>().setSelectedDate(pickedDate);
+                    context.read<FiltersProvider>().filterExpenses(
+                        context.read<AddExpenseProvider>().expenseItems);
+                    //
+                    //
+                    //ovo
                   }
                 },
                 icon: const Icon(Icons.edit_calendar_sharp),
@@ -101,6 +113,11 @@ class FiltersScreen extends StatelessWidget {
                         .read<FiltersProvider>()
                         .setStartDate(pickedDate.start);
                     context.read<FiltersProvider>().setEndDate(pickedDate.end);
+                    context.read<FiltersProvider>().filterExpenses(
+                        context.read<AddExpenseProvider>().expenseItems);
+                    //
+                    //
+                    //ovo
                   }
                 },
                 icon: const Icon(Icons.calendar_month_outlined),

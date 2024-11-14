@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
         theme: myTheme,
         debugShowCheckedModeBanner: false,
         title: 'Named Routes',
-        initialRoute: 'loginscreen', //dodati logIn skrin i kao initial
+        initialRoute: 'expenses',
+        //'loginscreen', //dodati logIn skrin i kao initial
         //
         //
         // done: For larger apps with 20+ routes, it's a better practice to define

@@ -23,18 +23,41 @@ class FiltersProvider with ChangeNotifier {
   // done: Not a good idea to use
   // context.read<AddExpenseProvider>().expenseItems
   // in a different provider, refactor to pass the [expenseItems] as a method parameter
-  void filterExpenses(List<ExpenseItem> expenseItems) {
+
+  void filterByRange(List<ExpenseItem> expenseItems) {
     filteredExpenses = expenseItems.where((expense) {
       bool isInRange = (fromDate == null || expense.date.isAfter(fromDate!)) &&
           (toDate == null || expense.date.isBefore(toDate!));
-      bool isExactDate =
-          selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
 
-      return isInRange || isExactDate;
+      return isInRange;
     }).toList();
 
     notifyListeners();
   }
+
+  void filterByDate(List<ExpenseItem> expenseItems) {
+    filteredExpenses = expenseItems.where((expense) {
+      bool isExactDate =
+          selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
+
+      return isExactDate;
+    }).toList();
+
+    notifyListeners();
+  }
+
+  // void filterExpenses(List<ExpenseItem> expenseItems) {
+  //   filteredExpenses = expenseItems.where((expense) {
+  //     bool isInRange = (fromDate == null || expense.date.isAfter(fromDate!)) &&
+  //         (toDate == null || expense.date.isBefore(toDate!));
+  //     bool isExactDate =
+  //         selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
+
+  //     return isInRange || isExactDate;
+  //   }).toList();
+
+  //   notifyListeners();
+  // }
 
   void setSelectedDate(DateTime date) {
     selectedDate = date;

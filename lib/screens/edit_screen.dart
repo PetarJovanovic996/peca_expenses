@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
+import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:provider/provider.dart';
 // import 'package:peca_expenses/providers/add_expense_provider.dart';
 // import 'package:provider/provider.dart';
 
@@ -12,8 +14,12 @@ import '../data/categories.dart';
 // import 'package:peca_expenses/models/date.dart';
 
 class EditExpenseScreen extends StatefulWidget {
-  const EditExpenseScreen({super.key, required this.item});
-  final ExpenseItem item;
+  const EditExpenseScreen({
+    super.key,
+  });
+
+  // TODO: Now we don't need for this.
+  // final ExpenseItem item;
 
   @override
   EditExpenseScreenState createState() => EditExpenseScreenState();
@@ -32,11 +38,15 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
   @override
   void initState() {
     super.initState();
-    name = widget.item.name;
-    description = widget.item.description;
-    amount = widget.item.amount;
-    date = widget.item.date;
-    category = widget.item.category;
+
+    final index = context.read<AddExpenseProvider>().editingIndex!;
+    final item = context.read<AddExpenseProvider>().expenseItems[index];
+
+    name = item.name;
+    description = item.description;
+    amount = item.amount;
+    date = item.date;
+    category = item.category;
   }
 
   @override
@@ -121,7 +131,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                   ),
                   Expanded(
                     child: DropdownButtonFormField(
-                        value: widget.item.category,
+                        value: category,
                         items: [
                           for (final category in categories.entries)
                             DropdownMenuItem(
@@ -179,19 +189,31 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                 ],
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
                     final updatedItem = ExpenseItem(
-                      id: widget.item.id,
+                      // TODO: id should not be added when creating new object, firebase will add it for you
+                      // id: id,
                       name: name,
                       description: description,
                       amount: amount,
                       date: date,
                       category: category,
                     );
+
+                    final updated = await context
+                        .read<AddExpenseProvider>()
+                        .updateExpense(updatedItem);
+
                     // TODO: No need to parse [updatedItem] on pop(), refactor.
                     //onda mi se ne prebaci
-                    Navigator.of(context).pop(updatedItem);
+
+                    // Navigator.of(context).pop(updatedItem);
+
+                    if (updated && context.mounted) {
+                      Navigator.of(context).pop();
+                      context.read<AddExpenseProvider>().loadItems(context);
+                    }
                   }
                 },
                 child: const Text('Save'),

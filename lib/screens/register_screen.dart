@@ -66,7 +66,7 @@ class RegisterScreen extends StatelessWidget {
                               return;
                             }
                             Navigator.pushReplacementNamed(
-                                context, 'loginscreen');
+                                context, 'login-screen');
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

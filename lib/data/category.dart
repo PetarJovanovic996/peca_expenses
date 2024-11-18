@@ -10,6 +10,9 @@ enum Categories {
   other,
 }
 
+final categoriesNames = Categories.values.map((e) => e.name).toList();
+// print(categoriesNames); => [food, bills, rent, sport, clothes, nightOut, other]
+
 class Category {
   const Category({required this.title, required this.icon});
 

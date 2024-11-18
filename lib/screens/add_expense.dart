@@ -5,6 +5,7 @@ import 'package:peca_expenses/providers/add_expense_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/models/date.dart';
 
+// TODO: Widgets representing screens, should have a suffix "Screen" / "View"
 class AddExpense extends StatelessWidget {
   AddExpense({super.key});
 
@@ -12,6 +13,7 @@ class AddExpense extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Improve code readability
     return Scaffold(
       appBar: AppBar(
         title: const Padding(
@@ -32,8 +34,8 @@ class AddExpense extends StatelessWidget {
               // TODO: Create a widget to serve as a wrapper for all [TextFormField],
               // TODO: refactor everywhere where it's used.
               //veci mi je to posa :D
+              // Get it done lil' nigga. :D
               TextFormField(
-                // done: Since initialValue is called only when the widget is rebuild we can use [read] instead of watch
                 initialValue: context.read<AddExpenseProvider>().enteredName,
                 maxLength: 50,
                 decoration: const InputDecoration(
@@ -52,7 +54,7 @@ class AddExpense extends StatelessWidget {
                   context.read<AddExpenseProvider>().setEnteredName(newValue);
                 },
               ),
-              // done: Unnecessary column
+              // TODO: [context.watch]?
               TextFormField(
                 initialValue:
                     context.watch<AddExpenseProvider>().enteredDescription,
@@ -85,6 +87,7 @@ class AddExpense extends StatelessWidget {
                         prefix: Text('\$'),
                       ),
                       keyboardType: TextInputType.number,
+                      // TODO: [context.watch]?
                       initialValue: context
                           .watch<AddExpenseProvider>()
                           .enteredAmount, // iz providera
@@ -175,6 +178,8 @@ class AddExpense extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
+                    // TODO: Here we use [context.watch] since isSending will update it's value
+                    // and based on it's new value we need to re-render this button and update it's logic
                     onPressed: context.read<AddExpenseProvider>().isSending
                         ? null
                         : () {
@@ -189,13 +194,24 @@ class AddExpense extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
+                    // TODO: Check comment above
                     onPressed: context.read<AddExpenseProvider>().isSending
                         ? null
-                        : () {
+                        : () async {
                             if (_formKey.currentState?.validate() ?? false) {
-                              context
+                              final addCompleted = await context
                                   .read<AddExpenseProvider>()
-                                  .saveValues(context);
+                                  .saveValues();
+
+                              // If added new expense successfully pop only.
+                              if (addCompleted && context.mounted) {
+                                // No need to pop the new item with Navigator,
+                                // The new item which was added is added in line 108 [add_expense_provider],
+                                // Then, the [context.watch] in the [expenses_screen] ListView.builder will handle the updating for us,
+                                Navigator.of(context).pop();
+                              }
+
+                              // else handle error, etc.
                             }
                           }, // iz providera
                     child: context.read<AddExpenseProvider>().isSending

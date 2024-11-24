@@ -26,8 +26,6 @@ class EditExpenseScreen extends StatefulWidget {
 }
 
 class EditExpenseScreenState extends State<EditExpenseScreen> {
-  // done: Refactor entire logic, think how to implement provider for this.
-  // done: Goal is to remove all [TextEditingController] present
   late String name;
   late String description;
   late String amount;
@@ -39,8 +37,8 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
   void initState() {
     super.initState();
 
-    final index = context.read<AddExpenseProvider>().editingIndex!;
-    final item = context.read<AddExpenseProvider>().expenseItems[index];
+    final index = context.read<ExpenseProvider>().editingIndex!;
+    final item = context.read<ExpenseProvider>().expenseItems[index];
 
     name = item.name;
     description = item.description;
@@ -81,8 +79,6 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                 },
                 onChanged: (value) => name = value,
               ),
-
-              // done: Unnecessary column
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: TextFormField(
@@ -202,7 +198,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                     );
 
                     final updated = await context
-                        .read<AddExpenseProvider>()
+                        .read<ExpenseProvider>()
                         .updateExpense(updatedItem);
 
                     // TODO: No need to parse [updatedItem] on pop(), refactor.
@@ -212,7 +208,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
 
                     if (updated && context.mounted) {
                       Navigator.of(context).pop();
-                      context.read<AddExpenseProvider>().loadItems(context);
+                      context.read<ExpenseProvider>().loadItems();
                     }
                   }
                 },

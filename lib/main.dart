@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:peca_expenses/data/categories.dart';
 import 'package:peca_expenses/firebase_options.dart';
 import 'package:peca_expenses/main/my_app.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peca_expenses/screens/add_expense.dart';
+import 'package:peca_expenses/screens/add_expense_screen.dart';
 import 'package:peca_expenses/screens/edit_screen.dart';
 import 'package:peca_expenses/screens/expenses_screen.dart';
 import 'package:peca_expenses/screens/filters_screen.dart';
@@ -8,10 +8,11 @@ import 'package:peca_expenses/screens/register_screen.dart';
 
 // Routes always separate words by -
 // add-new, login-screen
+//pitanje: Treba li mi onda ovo routes {}...
 final Map<String, WidgetBuilder> routes = {
   'expenses': (context) => const ExpensesScreen(),
   'filter': (context) => const FiltersScreen(),
-  'add-new': (context) => AddExpense(),
+  'add-new': (context) => AddExpenseScreen(),
   'login-screen': (context) => LoginScreen(),
   'register': (context) => RegisterScreen()
 };
@@ -28,7 +29,7 @@ final Map<String, WidgetBuilder> routes = {
 // meaning, if we want to update the name of a route, we only update in one single place
 // instead of the entire code where we pushed to that route.
 
-// TODO: Replace all hardcoded route names in project with these
+// done: Replace all hardcoded route names in project with these
 class Routes {
   static const String expenses = 'expenses';
   static const String filter = 'filter';
@@ -51,7 +52,7 @@ class MyRouter {
         return switch (routeSettings.name) {
           (Routes.expenses) => const ExpensesScreen(),
           (Routes.filter) => const FiltersScreen(),
-          (Routes.addNew) => AddExpense(),
+          (Routes.addNew) => AddExpenseScreen(),
           (Routes.loginScreen) => LoginScreen(),
           (Routes.register) => RegisterScreen(),
           (Routes.editExpense) => const EditExpenseScreen(),

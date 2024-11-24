@@ -13,12 +13,12 @@ class ExpenseScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
-    final allItems = context.watch<AddExpenseProvider>().expenseItems;
+    final allItems = context.watch<ExpenseProvider>().expenseItems;
 
     final List<ExpenseItem> itemsToDisplay =
         filteredItems.isNotEmpty ? filteredItems : allItems;
 
-    if (context.watch<AddExpenseProvider>().isLoading) {
+    if (context.watch<ExpenseProvider>().isLoading) {
       // Just for cleaner code extract to custom widget, example given at the bottom of this file.
       return const Center(child: CircularProgressIndicator());
       // return _LoadingWidget();
@@ -31,11 +31,11 @@ class ExpenseScreenContent extends StatelessWidget {
       );
     }
 
-    if (context.watch<AddExpenseProvider>().error != null) {
+    if (context.watch<ExpenseProvider>().error != null) {
       // Just for cleaner code extract to custom widget, example given at the bottom of this file.
       // Similarly as for _LoadingWidget
       return Center(
-        child: Text(context.watch<AddExpenseProvider>().error!),
+        child: Text(context.watch<ExpenseProvider>().error!),
       );
     }
 
@@ -58,7 +58,7 @@ class ExpenseScreenContent extends StatelessWidget {
       itemBuilder: (ctx, index) => Dismissible(
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          context.read<AddExpenseProvider>().removeItem(itemsToDisplay[index]);
+          context.read<ExpenseProvider>().removeItem(itemsToDisplay[index]);
         },
         // key: ValueKey(itemsToDisplay[index].name),
         // TODO: To resolve the bug when deleting an expense item, we need to ensure,
@@ -119,7 +119,7 @@ class ExpenseScreenContent extends StatelessWidget {
                           // int? editingIndex;
 
                           context
-                              .read<AddExpenseProvider>()
+                              .read<ExpenseProvider>()
                               .setEditingIndex(index);
 
                           Navigator.of(context).pushNamed(Routes.editExpense);
@@ -141,7 +141,7 @@ class ExpenseScreenContent extends StatelessWidget {
 
 // Example loading widget, we can declare it as private widget because it will only be used here
 class _LoadingWidget extends StatelessWidget {
-  const _LoadingWidget({super.key});
+  const _LoadingWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +150,7 @@ class _LoadingWidget extends StatelessWidget {
 }
 
 class _EmptyWidget extends StatelessWidget {
-  const _EmptyWidget({super.key});
+  const _EmptyWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -161,12 +161,12 @@ class _EmptyWidget extends StatelessWidget {
 }
 
 class _ErrorWidget extends StatelessWidget {
-  const _ErrorWidget({super.key});
+  const _ErrorWidget();
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(context.watch<AddExpenseProvider>().error!),
+      child: Text(context.watch<ExpenseProvider>().error!),
     );
   }
 }

@@ -70,7 +70,7 @@ class FiltersScreen extends StatelessWidget {
                     }
                     context.read<FiltersProvider>().setSelectedDate(pickedDate);
                     context.read<FiltersProvider>().filterByDate(
-                        context.read<AddExpenseProvider>().expenseItems);
+                        context.read<ExpenseProvider>().expenseItems);
                     //
                     //
                     //ovo
@@ -109,7 +109,7 @@ class FiltersScreen extends StatelessWidget {
                         .setStartDate(pickedDate.start);
                     context.read<FiltersProvider>().setEndDate(pickedDate.end);
                     context.read<FiltersProvider>().filterByRange(
-                        context.read<AddExpenseProvider>().expenseItems);
+                        context.read<ExpenseProvider>().expenseItems);
                     //
                     //
                     //ovo

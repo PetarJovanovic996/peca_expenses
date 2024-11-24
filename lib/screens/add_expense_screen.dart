@@ -5,9 +5,9 @@ import 'package:peca_expenses/providers/add_expense_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/models/date.dart';
 
-// TODO: Widgets representing screens, should have a suffix "Screen" / "View"
-class AddExpense extends StatelessWidget {
-  AddExpense({super.key});
+// done: Widgets representing screens, should have a suffix "Screen" / "View"
+class AddExpenseScreen extends StatelessWidget {
+  AddExpenseScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,7 +36,7 @@ class AddExpense extends StatelessWidget {
               //veci mi je to posa :D
               // Get it done lil' nigga. :D
               TextFormField(
-                initialValue: context.read<AddExpenseProvider>().enteredName,
+                initialValue: context.read<ExpenseProvider>().enteredName,
                 maxLength: 50,
                 decoration: const InputDecoration(
                   label: Text('Name'),
@@ -51,13 +51,13 @@ class AddExpense extends StatelessWidget {
                   return null;
                 },
                 onChanged: (newValue) {
-                  context.read<AddExpenseProvider>().setEnteredName(newValue);
+                  context.read<ExpenseProvider>().setEnteredName(newValue);
                 },
               ),
               // TODO: [context.watch]?
               TextFormField(
                 initialValue:
-                    context.watch<AddExpenseProvider>().enteredDescription,
+                    context.watch<ExpenseProvider>().enteredDescription,
                 maxLength: 50,
                 decoration: const InputDecoration(
                   label: Text('Description'),
@@ -73,7 +73,7 @@ class AddExpense extends StatelessWidget {
                 },
                 onChanged: (newValue) {
                   context
-                      .read<AddExpenseProvider>()
+                      .read<ExpenseProvider>()
                       .setEnteredDescription(newValue); // iz providera
                 },
               ),
@@ -89,7 +89,7 @@ class AddExpense extends StatelessWidget {
                       keyboardType: TextInputType.number,
                       // TODO: [context.watch]?
                       initialValue: context
-                          .watch<AddExpenseProvider>()
+                          .watch<ExpenseProvider>()
                           .enteredAmount, // iz providera
                       validator: (newValue) {
                         if (newValue == null ||
@@ -102,7 +102,7 @@ class AddExpense extends StatelessWidget {
                       },
                       onChanged: (newValue) {
                         context
-                            .read<AddExpenseProvider>()
+                            .read<ExpenseProvider>()
                             .setEnteredAmount(newValue); // iz providera
                       },
                     ),
@@ -110,8 +110,7 @@ class AddExpense extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonFormField(
-                      value:
-                          context.watch<AddExpenseProvider>().selectedCategory,
+                      value: context.watch<ExpenseProvider>().selectedCategory,
                       items: [
                         for (final category in categories.entries)
                           DropdownMenuItem(
@@ -131,7 +130,7 @@ class AddExpense extends StatelessWidget {
                       ],
                       onChanged: (newValue) {
                         context
-                            .read<AddExpenseProvider>()
+                            .read<ExpenseProvider>()
                             .setSelectedCategory(newValue!);
                       }, // iz providera
                     ),
@@ -144,7 +143,7 @@ class AddExpense extends StatelessWidget {
                 children: [
                   Text(
                     MyDateFormat.formatDate(
-                        context.watch<AddExpenseProvider>().selectedDate),
+                        context.watch<ExpenseProvider>().selectedDate),
                     // iz providera
                   ),
                   const SizedBox(
@@ -163,7 +162,7 @@ class AddExpense extends StatelessWidget {
                           return;
                         }
                         context
-                            .read<AddExpenseProvider>()
+                            .read<ExpenseProvider>()
                             .setSelectedDate(pickedDate);
                       }
                     },
@@ -180,11 +179,11 @@ class AddExpense extends StatelessWidget {
                   TextButton(
                     // TODO: Here we use [context.watch] since isSending will update it's value
                     // and based on it's new value we need to re-render this button and update it's logic
-                    onPressed: context.read<AddExpenseProvider>().isSending
+                    onPressed: context.read<ExpenseProvider>().isSending
                         ? null
                         : () {
                             _formKey.currentState?.reset();
-                            context.read<AddExpenseProvider>().resetValues();
+                            context.read<ExpenseProvider>().resetValues();
                           },
                     //iz providera
                     child: const Text(
@@ -195,12 +194,12 @@ class AddExpense extends StatelessWidget {
                   const SizedBox(height: 12),
                   ElevatedButton(
                     // TODO: Check comment above
-                    onPressed: context.read<AddExpenseProvider>().isSending
+                    onPressed: context.read<ExpenseProvider>().isSending
                         ? null
                         : () async {
                             if (_formKey.currentState?.validate() ?? false) {
                               final addCompleted = await context
-                                  .read<AddExpenseProvider>()
+                                  .read<ExpenseProvider>()
                                   .saveValues();
 
                               // If added new expense successfully pop only.
@@ -214,7 +213,7 @@ class AddExpense extends StatelessWidget {
                               // else handle error, etc.
                             }
                           }, // iz providera
-                    child: context.read<AddExpenseProvider>().isSending
+                    child: context.read<ExpenseProvider>().isSending
                         ? const SizedBox(
                             height: 16,
                             width: 16,

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AddExpenseProvider(),
+          create: (context) => ExpenseProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => FiltersProvider(),

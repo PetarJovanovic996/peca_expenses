@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peca_expenses/main/routes.dart';
 import 'package:peca_expenses/providers/add_expense_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:peca_expenses/widgets/expense_screen_content.dart';
@@ -16,7 +17,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AddExpenseProvider>().loadItems(context);
+    context.read<ExpenseProvider>().loadItems();
   }
 
   @override
@@ -45,8 +46,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           children: [
             IconButton(
               onPressed: () {
-                // TODO: Use new syntax : [Navigator.of(context).pushNamed] instead
-                Navigator.pushNamed(context, 'filter');
+                // done: Use new syntax : [Navigator.of(context).pushNamed] instead
+
+                Navigator.of(context).pushNamed(Routes.filter);
               },
               icon: const Icon(
                 Icons.filter_alt_sharp,
@@ -63,7 +65,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 // someone can write "addNew" next time they are trying to navigate to this screen,
                 // and this will cause a bug in the code.
 
-                Navigator.pushNamed(context, 'add-new');
+                Navigator.of(context).pushNamed(Routes.addNew);
               },
               label: const Text(
                 'Add new Expense',
@@ -112,8 +114,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               }
               // TODO: Google [Navigator.pushAndRemoveUntil] method
               // TODO: Update navigator syntax
-              Navigator.pushReplacementNamed(
-                  context, 'login-screen'); // Usmeravamo na login ekran
+              // Navigator.pushReplacementNamed(context, 'login-screen');
+              Navigator.of(context).pushNamed(Routes.loginScreen);
             },
           ),
           //

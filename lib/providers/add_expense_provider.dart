@@ -14,9 +14,9 @@ import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/screens/edit_screen.dart';
 
-// TODO: Since you handle all expenses logic in here, the naming "AddExpenseProvider" is no
+// done: Since you handle all expenses logic in here, the naming "AddExpenseProvider" is no
 // longer right, update to something else which should self-explain what the provider is for.
-class AddExpenseProvider extends ChangeNotifier {
+class ExpenseProvider extends ChangeNotifier {
   var enteredId = '';
   var enteredName = '';
   var enteredDescription = '';
@@ -143,9 +143,8 @@ class AddExpenseProvider extends ChangeNotifier {
   }
 
 //LOAD
-  // TODO: Remove this context, as it is not used anywhere in the method call
-  void loadItems(BuildContext context) async {
-    // done: Add try-catch block
+  // done: Remove this context, as it is not used anywhere in the method call
+  void loadItems() async {
     final url = Uri.https(
         'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
     try {
@@ -184,8 +183,6 @@ class AddExpenseProvider extends ChangeNotifier {
       isLoading = false;
 
       notifyListeners();
-
-      // print(response.statusCode);
     } catch (errors) {
       error = 'Failed to load data. Try later';
       isLoading = false;
@@ -247,7 +244,9 @@ class AddExpenseProvider extends ChangeNotifier {
       expenseItems.insert(editingIndex!, item);
 
       notifyListeners();
-      return true;
+      //pitanje: ovo dolje izbrisah jer se return true valjda nalazi na kraju koda
+      // ako ostane ovdje svakako kod ispod je onda dead code
+      //return true;
       int index = expenseItems.indexWhere((e) => e.id == item.id);
       if (index != -1) {
         // expenseItems[index] = item; // Ažuriraj u firebase
@@ -261,7 +260,6 @@ class AddExpenseProvider extends ChangeNotifier {
       return false;
     }
   }
-
   // TODO: Fix this, not good,
   // editExpense is not needed here,
   // Clicking on "Edit" icon, we should only navigate to "EditExpenseScreen", all other logic should
@@ -274,7 +272,7 @@ class AddExpenseProvider extends ChangeNotifier {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
-        builder: (context) => EditExpenseScreen(),
+        builder: (context) => const EditExpenseScreen(),
       ),
     )
         .then((updatedItem) {

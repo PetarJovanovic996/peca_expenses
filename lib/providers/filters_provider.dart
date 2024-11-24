@@ -13,6 +13,10 @@ import 'package:peca_expenses/models/expense_item.dart';
 //import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 
+//pitanje: kada zadam filter- datum za koji nemam def trosak
+// ne dobijam poruku - nema troskova
+// ...nista se ne desi / prikazuju se svi troskovi
+
 class FiltersProvider with ChangeNotifier {
   DateTime? fromDate;
   DateTime? toDate;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peca_expenses/main/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/providers/auth_provider.dart';
 
@@ -65,8 +66,10 @@ class RegisterScreen extends StatelessWidget {
                             if (!context.mounted) {
                               return;
                             }
-                            Navigator.pushReplacementNamed(
-                                context, 'login-screen');
+                            // ToDo: vidji za replacement
+                            // Navigator.pushReplacementNamed(
+                            //     context, 'login-screen');
+                            Navigator.of(context).pushNamed(Routes.loginScreen);
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -78,8 +81,10 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, 'loginscreen');
+                          //ToDo: vidji za replacement
+                          // Navigator.pushReplacementNamed(
+                          //     context, 'loginscreen');
+                          Navigator.of(context).pushNamed(Routes.loginScreen);
                           context.read<AuthProvider>().resetValues();
                         },
                         child: const Text('Go back'))

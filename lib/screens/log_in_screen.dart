@@ -1,18 +1,6 @@
-// import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:peca_expenses/main/routes.dart';
-
-//import 'package:peca_expenses/data/categories.dart';
-//import 'package:peca_expenses/providers/add_expense_provider.dart';
-//import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:provider/provider.dart';
-//import 'package:peca_expenses/models/date.dart';
-
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 import 'package:peca_expenses/providers/auth_provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -78,9 +66,10 @@ class LoginScreen extends StatelessWidget {
                           if (!context.mounted) {
                             return;
                           }
-                          //ToDo: vidji za replacement
+                          //done: vidji za replacement
                           //Navigator.pushReplacementNamed(context, 'expenses');
-                          Navigator.of(context).pushNamed(Routes.expenses);
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.expenses);
 
                           // Otići na home ekran
                         } catch (error) {
@@ -98,9 +87,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // ToDo: vidji za replacement
+                      // done: vidji za replacement
                       // Navigator.pushReplacementNamed(context, 'register');
-                      Navigator.of(context).pushNamed(Routes.register);
+                      Navigator.of(context)
+                          .pushReplacementNamed(Routes.register);
                     },
                     child: const Text('Register'),
                   ),

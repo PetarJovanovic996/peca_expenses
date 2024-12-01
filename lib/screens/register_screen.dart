@@ -66,10 +66,11 @@ class RegisterScreen extends StatelessWidget {
                             if (!context.mounted) {
                               return;
                             }
-                            // ToDo: vidji za replacement
+                            // done: vidji za replacement
                             // Navigator.pushReplacementNamed(
                             //     context, 'login-screen');
-                            Navigator.of(context).pushNamed(Routes.loginScreen);
+                            Navigator.of(context)
+                                .pushReplacementNamed(Routes.loginScreen);
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -81,10 +82,11 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          //ToDo: vidji za replacement
+                          //done: vidji za replacement
                           // Navigator.pushReplacementNamed(
                           //     context, 'loginscreen');
-                          Navigator.of(context).pushNamed(Routes.loginScreen);
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.loginScreen);
                           context.read<AuthProvider>().resetValues();
                         },
                         child: const Text('Go back'))

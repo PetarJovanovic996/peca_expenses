@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:peca_expenses/main/routes.dart';
 import 'package:peca_expenses/models/expense_item.dart';
-import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:peca_expenses/providers/expense_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
-//import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/models/date.dart';
 
@@ -14,29 +13,30 @@ class ExpenseScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
     final allItems = context.watch<ExpenseProvider>().expenseItems;
+    final isLoading = context.watch<ExpenseProvider>().isLoading;
+    final hasError = context.watch<ExpenseProvider>().error != null;
 
     final List<ExpenseItem> itemsToDisplay =
         filteredItems.isNotEmpty ? filteredItems : allItems;
 
-    if (context.watch<ExpenseProvider>().isLoading) {
+    final isEmpty = itemsToDisplay.isEmpty;
+
+    if (isLoading) {
       // Just for cleaner code extract to custom widget, example given at the bottom of this file.
-      return const Center(child: CircularProgressIndicator());
-      // return _LoadingWidget();
-    }
-    if (itemsToDisplay.isEmpty) {
-      // Just for cleaner code extract to custom widget, example given at the bottom of this file.
-      // Similarly as for _LoadingWidget
-      return const Center(
-        child: Text('Add Your Expanses'),
-      );
+
+      return const _LoadingWidget();
     }
 
-    if (context.watch<ExpenseProvider>().error != null) {
+    if (isEmpty) {
       // Just for cleaner code extract to custom widget, example given at the bottom of this file.
       // Similarly as for _LoadingWidget
-      return Center(
-        child: Text(context.watch<ExpenseProvider>().error!),
-      );
+      return const _EmptyWidget();
+    }
+
+    if (hasError) {
+      // Just for cleaner code extract to custom widget, example given at the bottom of this file.
+      // Similarly as for _LoadingWidget
+      return const _ErrorWidget();
     }
 
     // Example how we can achieve the same logic, and have it be more clear to someone who

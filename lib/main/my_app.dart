@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:peca_expenses/main/my_theme.dart';
 import 'package:peca_expenses/main/routes.dart';
-import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:peca_expenses/providers/expense_provider.dart';
 import 'package:peca_expenses/providers/auth_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
 

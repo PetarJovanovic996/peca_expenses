@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
-import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:peca_expenses/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
 // import 'package:peca_expenses/providers/add_expense_provider.dart';
 // import 'package:provider/provider.dart';

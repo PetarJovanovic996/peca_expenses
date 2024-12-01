@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:peca_expenses/providers/add_expense_provider.dart';
+import 'package:peca_expenses/providers/expense_provider.dart';
 
 //import 'package:peca_expenses/data/categories.dart';
 //import 'package:peca_expenses/providers/add_expense_provider.dart';

@@ -19,6 +19,10 @@ import 'package:peca_expenses/data/category.dart';
 //     ),
 //   ),
 
+//pitanje: Sve sam dodao - pocinjalo mi je malim slovom u padajucem meniju
+// gubilo mi se povezivanje sa gitom pa vratih
+// DA Prodjemo zajedno
+
 // When searching for a specific category, you can look up by title matching the enum.
 const categories = {
   Categories.food: Category(

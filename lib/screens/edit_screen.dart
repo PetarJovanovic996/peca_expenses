@@ -3,6 +3,8 @@ import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
+import 'package:peca_expenses/widgets/app_bars/edit_app_bar.dart';
+import 'package:peca_expenses/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 // import 'package:peca_expenses/providers/add_expense_provider.dart';
 // import 'package:provider/provider.dart';
@@ -50,24 +52,18 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.all(80.0),
-          child: Text('Edit Expense'),
-        ),
-      ),
+      appBar: const EditAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
+              CustomTextFormField(
                 initialValue: name,
+                keyboardType: TextInputType.text,
                 maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Name'),
-                ),
+                label: 'Name',
                 validator: (newValue) {
                   if (newValue == null ||
                       newValue.isEmpty ||
@@ -81,12 +77,11 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: TextFormField(
+                child: CustomTextFormField(
+                  keyboardType: TextInputType.text,
                   initialValue: description,
                   maxLength: 50,
-                  decoration: const InputDecoration(
-                    label: Text('Description'),
-                  ),
+                  label: 'Description',
                   validator: (newValue) {
                     if (newValue == null ||
                         newValue.isEmpty ||
@@ -103,11 +98,8 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Amount'),
-                        prefix: Text('\$'),
-                      ),
+                    child: CustomTextFormField(
+                      label: 'Amount',
                       keyboardType: TextInputType.number,
                       initialValue: amount,
                       validator: (newValue) {

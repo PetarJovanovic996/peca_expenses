@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
 
 import 'package:peca_expenses/widgets/expense_screen_content.dart';
-import 'package:peca_expenses/widgets/my_app_bar.dart';
+import 'package:peca_expenses/widgets/app_bars/main_app_bar.dart';
 
 import 'package:peca_expenses/widgets/my_navigation_bar.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +43,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       // so it's always a good idea to have them extracted in a separate widget.
 
       bottomNavigationBar: MyNavigationBar(),
-      appBar: MyAppBar(),
+      appBar: MainAppBar(),
       body: Padding(
         padding: EdgeInsets.only(top: 20.0),
         child: ExpenseScreenContent(),

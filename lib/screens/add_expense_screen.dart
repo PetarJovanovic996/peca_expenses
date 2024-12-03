@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'package:peca_expenses/data/categories.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
+import 'package:peca_expenses/widgets/add_data_fields/select_date_field.dart';
+import 'package:peca_expenses/widgets/app_bars/add_expense_app_bar.dart';
+import 'package:peca_expenses/widgets/add_data_fields/amount_text_form_field.dart';
+import 'package:peca_expenses/widgets/add_data_fields/category_dropdown_form_field.dart';
+import 'package:peca_expenses/widgets/add_data_fields/descr_text_form_field.dart';
+import 'package:peca_expenses/widgets/add_data_fields/name_text_form_field.dart';
 import 'package:provider/provider.dart';
-import 'package:peca_expenses/models/date.dart';
 
 // done: Widgets representing screens, should have a suffix "Screen" / "View"
 class AddExpenseScreen extends StatelessWidget {
@@ -13,17 +16,9 @@ class AddExpenseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Improve code readability
+    // done: Improve code readability
     return Scaffold(
-      appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.all(70.0),
-          child: Text('Add New Expense'),
-        ),
-      ),
-      //
-      //
-      // ovdje pocinje dodavanje novog
+      appBar: const AddExpenseAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Form(
@@ -31,155 +26,38 @@ class AddExpenseScreen extends StatelessWidget {
           // iz providera
           child: Column(
             children: [
-              // TODO: Create a widget to serve as a wrapper for all [TextFormField],
-              // TODO: refactor everywhere where it's used.
+              const NameTextFormField()
+              //pitanje: nije pitanje, ali ovako da je univerzalno ime za komentar ovaj put :D
+              // zeznuh se kod wrapping TextFormField / pa za svako prvo napravih odvojeni widget
+              //neka ostane sad da ne brisem - a i urednije je :D
+
+              // done: Create a widget to serve as a wrapper for all [TextFormField],
+              // done: refactor everywhere where it's used.
               //veci mi je to posa :D
               // Get it done lil' nigga. :D
-              TextFormField(
-                initialValue: context.read<ExpenseProvider>().enteredName,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Name'),
-                ),
-                validator: (newValue) {
-                  if (newValue == null ||
-                      newValue.isEmpty ||
-                      newValue.trim().length <= 1 ||
-                      newValue.trim().length > 50) {
-                    return 'Invalid input';
-                  }
-                  return null;
-                },
-                onChanged: (newValue) {
-                  context.read<ExpenseProvider>().setEnteredName(newValue);
-                },
-              ),
-              // TODO: [context.watch]?
-              TextFormField(
-                initialValue:
-                    context.watch<ExpenseProvider>().enteredDescription,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Description'),
-                ),
-                validator: (newValue) {
-                  if (newValue == null ||
-                      newValue.isEmpty ||
-                      newValue.trim().length <= 1 ||
-                      newValue.trim().length > 50) {
-                    return 'Invalid input';
-                  }
-                  return null;
-                },
-                onChanged: (newValue) {
-                  context
-                      .read<ExpenseProvider>()
-                      .setEnteredDescription(newValue); // iz providera
-                },
-              ),
-              Row(
+              ,
+              // done: [context.watch]?
+              const DescrTextFormField(),
+              const Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Amount'),
-                        prefix: Text('\$'),
-                      ),
-                      keyboardType: TextInputType.number,
-                      // TODO: [context.watch]?
-                      initialValue: context
-                          .watch<ExpenseProvider>()
-                          .enteredAmount, // iz providera
-                      validator: (newValue) {
-                        if (newValue == null ||
-                            newValue.isEmpty ||
-                            int.tryParse(newValue) == null ||
-                            int.tryParse(newValue)! <= 0) {
-                          return 'Invalid input';
-                        }
-                        return null;
-                      },
-                      onChanged: (newValue) {
-                        context
-                            .read<ExpenseProvider>()
-                            .setEnteredAmount(newValue); // iz providera
-                      },
-                    ),
+                    child: AmountTextFormField(),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Expanded(
-                    child: DropdownButtonFormField(
-                      value: context.watch<ExpenseProvider>().selectedCategory,
-                      items: [
-                        for (final category in categories.entries)
-                          DropdownMenuItem(
-                              value: category.value,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    category.value.icon.icon,
-                                    color: const Color.fromARGB(255, 43, 5, 18),
-                                  ),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  Text(category.value.title),
-                                ],
-                              ))
-                      ],
-                      onChanged: (newValue) {
-                        context
-                            .read<ExpenseProvider>()
-                            .setSelectedCategory(newValue!);
-                      }, // iz providera
-                    ),
+                    child: CategoryDropdownFormField(),
                   )
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    MyDateFormat.formatDate(
-                        context.watch<ExpenseProvider>().selectedDate),
-                    // iz providera
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now().toLocal(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2101),
-                      );
-                      if (pickedDate != null) {
-                        if (!context.mounted) {
-                          return;
-                        }
-                        context
-                            .read<ExpenseProvider>()
-                            .setSelectedDate(pickedDate);
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.calendar_month_outlined,
-                      color: Color.fromARGB(255, 43, 5, 18),
-                    ),
-                  ),
-                ],
-              ),
+              const SelectDateField(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    // TODO: Here we use [context.watch] since isSending will update it's value
+                    // done: Here we use [context.watch] since isSending will update it's value
                     // and based on it's new value we need to re-render this button and update it's logic
-                    onPressed: context.read<ExpenseProvider>().isSending
+                    onPressed: context.watch<ExpenseProvider>().isSending
                         ? null
                         : () {
                             _formKey.currentState?.reset();
@@ -193,8 +71,8 @@ class AddExpenseScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    // TODO: Check comment above
-                    onPressed: context.read<ExpenseProvider>().isSending
+                    // done: Check comment above
+                    onPressed: context.watch<ExpenseProvider>().isSending
                         ? null
                         : () async {
                             if (_formKey.currentState?.validate() ?? false) {

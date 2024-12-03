@@ -4,11 +4,11 @@ import 'package:peca_expenses/providers/filters_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:peca_expenses/providers/auth_provider.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  const MyAppBar(
+  const MainAppBar(
       {super.key, this.preferredSize = const Size.fromHeight(kToolbarHeight)});
 
   @override

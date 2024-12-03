@@ -12,7 +12,6 @@ import 'package:peca_expenses/data/categories.dart';
 import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
-import 'package:peca_expenses/screens/edit_screen.dart';
 
 // done: Since you handle all expenses logic in here, the naming "AddExpenseProvider" is no
 // longer right, update to something else which should self-explain what the provider is for.
@@ -249,7 +248,7 @@ class ExpenseProvider extends ChangeNotifier {
       //return true;
       int index = expenseItems.indexWhere((e) => e.id == item.id);
       if (index != -1) {
-        // expenseItems[index] = item; // Ažuriraj u firebase
+        //expenseItems[index] = item; // Ažuriraj u firebase
 
         expenseItems.insert(editingIndex!, item);
 
@@ -260,32 +259,36 @@ class ExpenseProvider extends ChangeNotifier {
       return false;
     }
   }
-  // TODO: Fix this, not good,
+  // done: Fix this, not good,
   // editExpense is not needed here,
   // Clicking on "Edit" icon, we should only navigate to "EditExpenseScreen", all other logic should
   // be taken care of somewhere else.
 
-  // TODO: Since we are using named routes, google how to pass arguments to named routes,
+  // done: Since we are using named routes, google how to pass arguments to named routes,
   // If you defined Named routes in your project, it's not a good idea to have [push(..)] anywhere in the code
   // as it can lead to bugs.
-  void editExpense(ExpenseItem item, BuildContext context) {
-    Navigator.of(context)
-        .push(
-      MaterialPageRoute(
-        builder: (context) => const EditExpenseScreen(),
-      ),
-    )
-        .then((updatedItem) {
-      if (updatedItem != null) {
-        if (!context.mounted) {
-          return;
-        }
-        updateExpense(updatedItem);
-        notifyListeners();
-      }
-      notifyListeners();
-    });
-  }
+
+  // pitanje: ovo sam nedje pitao ja mislim / ovo mi je neki prosli kod,
+  //ovo samo brisem ja mislim, nista mi ne radi?
+
+  // void editExpense(ExpenseItem item, BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(
+  //     MaterialPageRoute(
+  //       builder: (context) => const EditExpenseScreen(),
+  //     ),
+  //   )
+  //       .then((updatedItem) {
+  //     if (updatedItem != null) {
+  //       if (!context.mounted) {
+  //         return;
+  //       }
+  //       updateExpense(updatedItem);
+  //       notifyListeners();
+  //     }
+  //     notifyListeners();
+  //   });
+  // }
 
   //KRAJ EDIT I UPDATE
   //

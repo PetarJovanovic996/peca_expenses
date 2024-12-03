@@ -20,7 +20,7 @@ class EditExpenseScreen extends StatefulWidget {
     super.key,
   });
 
-  // TODO: Now we don't need for this.
+  // done: Now we don't need for this.
   // final ExpenseItem item;
 
   @override
@@ -38,7 +38,6 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
   @override
   void initState() {
     super.initState();
-
     final index = context.read<ExpenseProvider>().editingIndex!;
     final item = context.read<ExpenseProvider>().expenseItems[index];
 
@@ -51,6 +50,9 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // dodao zbog button/a
+    final index = context.read<ExpenseProvider>().editingIndex!;
+    final item = context.read<ExpenseProvider>().expenseItems;
     return Scaffold(
       appBar: const EditAppBar(),
       body: Padding(
@@ -180,8 +182,19 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                 onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
                     final updatedItem = ExpenseItem(
-                      // TODO: id should not be added when creating new object, firebase will add it for you
-                      // id: id,
+                      // pitanje: moram read/ovat id , jer kad ovo maknem ne cita nijedan
+                      //id sa fireabse vec pravi novi sa NULL vrijednosti
+                      id: item[index].id,
+
+                      //pitanje:
+                      //jeba si mi majku za edit nesto - ovo sam jedino uspio da ga ovako fixam
+
+                      // done: id should not be added when creating new object, firebase will add it for you
+                      //pitanje: kad ga izmijenim i kliknem save
+                      //na firebase pravi potpuno novi objekat / ne edituje izabrani
+                      //nakon toga samo taj isti mijenja / sto god izabrao
+                      //a na firebase pokazuje null ID
+                      //id: id,
                       name: name,
                       description: description,
                       amount: amount,
@@ -193,7 +206,7 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                         .read<ExpenseProvider>()
                         .updateExpense(updatedItem);
 
-                    // TODO: No need to parse [updatedItem] on pop(), refactor.
+                    // done: No need to parse [updatedItem] on pop(), refactor.
                     //onda mi se ne prebaci
 
                     // Navigator.of(context).pop(updatedItem);

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:peca_expenses/main/routes.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
 import 'package:peca_expenses/providers/filters_provider.dart';
+import 'package:peca_expenses/widgets/app_bars/expense_list_item.dart';
 import 'package:provider/provider.dart';
-import 'package:peca_expenses/models/date.dart';
 
 class ExpenseScreenContent extends StatelessWidget {
   const ExpenseScreenContent({super.key});
@@ -52,7 +51,7 @@ class ExpenseScreenContent extends StatelessWidget {
 
     return ListView.builder(
       itemCount: itemsToDisplay.length,
-      // TODO: It's always a good idea to show an icon when using dismissable,
+      // done: It's always a good idea to show an icon when using dismissable,
       // since it may not be intuitive to the user what action is being done
       // Example: Check swiping left/right on gmail app when in inbox to see what I mean
       itemBuilder: (ctx, index) => Dismissible(
@@ -61,78 +60,22 @@ class ExpenseScreenContent extends StatelessWidget {
           context.read<ExpenseProvider>().removeItem(itemsToDisplay[index]);
         },
         // key: ValueKey(itemsToDisplay[index].name),
-        // TODO: To resolve the bug when deleting an expense item, we need to ensure,
+        // done: To resolve the bug when deleting an expense item, we need to ensure,
         // every key is unique, we can use the following simplest solution
         // Since names can be the same for 2 different expenses, the above code won't work,
         // Example: Code will break if we add 2 expenses with the same name, and then try to delete one of them
         key: UniqueKey(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          // TODO: Extract single list item as a separate widget
-
-          // Example of a clean itemBuilder would be :
-          // itemBuilder: (context, index) => SingleExpenseItem(expenseItem: items[index]);
-          child: Container(
-            // TODO: No need for parent widget [Padding] when we have Container here,
-            // which has "padding" param
-            margin: const EdgeInsets.symmetric(vertical: 5.0),
-            padding: const EdgeInsets.all(1.0),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 206, 182, 190),
-              borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(
-                  color: const Color.fromARGB(255, 82, 21, 21), width: 2),
-            ),
-            child: ListTile(
-                title: Text(
-                  itemsToDisplay[index].name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(itemsToDisplay[index].description),
-                    Text(
-                      MyDateFormat.formatDate(itemsToDisplay[index].date),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                leading: Icon(itemsToDisplay[index].category.icon.icon),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      '\$${itemsToDisplay[index].amount}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          // TODO: Follow new logic, first check [editExpense] comments,
-                          // I will update [edit_screen] and [add_expense_provider] by adding
-                          // int? editingIndex;
-
-                          context
-                              .read<ExpenseProvider>()
-                              .setEditingIndex(index);
-
-                          Navigator.of(context).pushNamed(Routes.editExpense);
-
-                          // CHECK COMMENTS IN THE editExpense, this is the right way to do it
-                          // context
-                          //     .read<AddExpenseProvider>()
-                          //     .editExpense(itemsToDisplay[index], ctx);
-                        },
-                        icon: const Icon(Icons.edit)),
-                  ],
-                )),
+        background: Container(
+          color: Colors.red,
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
           ),
+        ), // done: Extract single list item as a separate widget
+        child: ExpenseListItem(
+          index: index,
         ),
       ),
     );

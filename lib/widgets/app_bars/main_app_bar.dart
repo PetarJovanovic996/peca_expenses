@@ -43,8 +43,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
             if (!context.mounted) {
               return;
             }
-            // done: Google [Navigator.pushAndRemoveUntil] method
-            // done: Update navigator syntax
 
             Navigator.of(context).pushNamedAndRemoveUntil(
                 Routes.loginScreen, (Route<dynamic> route) => false);

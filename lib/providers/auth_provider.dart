@@ -4,13 +4,6 @@ import 'package:flutter/material.dart';
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // done: When creating ChangeNotifiers always use public fields, no need for code duplication,
-  // Just write String email = '..';
-  // No need for custom getters ,
-
-  // Fields inside a ChangeNotifier are expected to change, and to be able to be accessed
-  // from somewhere else, so it's totally fine to just declare them as public fields.
-
   String email = '';
   String password = '';
 
@@ -55,11 +48,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    // done: No need for notify listener here,
-    // done: Also, the order of the calls is important,
-    // We should only reset the values if the HTTP request for "signOut" works,
-    // so first we signOut of the auth, and then reset values.
-
+    // TODO: [.signOut] is a FirebaseService method, which does some logic by sending HTTP request to Firebase
+    // Like discussed before, every HTTP request can fail, always use try-catch blocks when sending HTTP requests.
     await _auth.signOut();
     user = null;
     resetValues();

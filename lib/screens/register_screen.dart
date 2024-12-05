@@ -8,6 +8,10 @@ class RegisterScreen extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
+  // TODO: Activate format on save option inside Android Studio,
+
+  // IMPORTANT TODO: Also, update the project to latest Flutter version, which adds new formatting.
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,9 +70,6 @@ class RegisterScreen extends StatelessWidget {
                             if (!context.mounted) {
                               return;
                             }
-                            // done: vidji za replacement
-                            // Navigator.pushReplacementNamed(
-                            //     context, 'login-screen');
                             Navigator.of(context)
                                 .pushReplacementNamed(Routes.loginScreen);
                           } catch (error) {
@@ -82,9 +83,6 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          //done: vidji za replacement
-                          // Navigator.pushReplacementNamed(
-                          //     context, 'loginscreen');
                           Navigator.of(context)
                               .pushReplacementNamed(Routes.loginScreen);
                           context.read<AuthProvider>().resetValues();

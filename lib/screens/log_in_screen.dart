@@ -66,8 +66,6 @@ class LoginScreen extends StatelessWidget {
                           if (!context.mounted) {
                             return;
                           }
-                          //done: vidji za replacement
-                          //Navigator.pushReplacementNamed(context, 'expenses');
                           Navigator.of(context)
                               .pushReplacementNamed(Routes.expenses);
 
@@ -87,8 +85,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // done: vidji za replacement
-                      // Navigator.pushReplacementNamed(context, 'register');
                       Navigator.of(context)
                           .pushReplacementNamed(Routes.register);
                     },

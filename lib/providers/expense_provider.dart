@@ -13,8 +13,6 @@ import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 
-// done: Since you handle all expenses logic in here, the naming "AddExpenseProvider" is no
-// longer right, update to something else which should self-explain what the provider is for.
 class ExpenseProvider extends ChangeNotifier {
   var enteredId = '';
   var enteredName = '';

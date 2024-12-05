@@ -10,19 +10,27 @@ import 'package:provider/provider.dart';
 class ExpenseListItem extends StatelessWidget {
   const ExpenseListItem({super.key, required this.index});
 
+  // TODO: Instead of passing index to each [ExpenseListItem] and then reading again the
+  // provider's value, you can pass the object itself.
+  // TODO: Refactor
+
+  // BONUS: There is also a cleaner way. Google [Provider.value] and try to figure out
+  // how that can be fit here. If you use Provider.value, the right way, there is no need
+  // to pass anything to [ExpenseListItem]
   final int index;
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Just a note: This should not be watch!
+    // TIP: When writing logic, always try to write [context.read] first,
+    // and if it's needed then use [watch]. Here we don't need watch.
+
     final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
     final allItems = context.watch<ExpenseProvider>().expenseItems;
 
     final List<ExpenseItem> itemsToDisplay =
         filteredItems.isNotEmpty ? filteredItems : allItems;
     return Container(
-      // done: No need for parent widget [Padding] when we have Container here,
-      // which has "padding" param
-
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       padding: const EdgeInsets.all(1.0),
       decoration: BoxDecoration(

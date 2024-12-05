@@ -24,10 +24,6 @@ class FiltersProvider with ChangeNotifier {
 
   List<ExpenseItem> filteredExpenses = [];
 
-  // done: Not a good idea to use
-  // context.read<AddExpenseProvider>().expenseItems
-  // in a different provider, refactor to pass the [expenseItems] as a method parameter
-
   void filterByRange(List<ExpenseItem> expenseItems) {
     filteredExpenses = expenseItems.where((expense) {
       bool isInRange = (fromDate == null || expense.date.isAfter(fromDate!)) &&

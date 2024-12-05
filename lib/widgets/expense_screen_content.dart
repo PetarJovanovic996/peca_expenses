@@ -51,19 +51,11 @@ class ExpenseScreenContent extends StatelessWidget {
 
     return ListView.builder(
       itemCount: itemsToDisplay.length,
-      // done: It's always a good idea to show an icon when using dismissable,
-      // since it may not be intuitive to the user what action is being done
-      // Example: Check swiping left/right on gmail app when in inbox to see what I mean
       itemBuilder: (ctx, index) => Dismissible(
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
           context.read<ExpenseProvider>().removeItem(itemsToDisplay[index]);
         },
-        // key: ValueKey(itemsToDisplay[index].name),
-        // done: To resolve the bug when deleting an expense item, we need to ensure,
-        // every key is unique, we can use the following simplest solution
-        // Since names can be the same for 2 different expenses, the above code won't work,
-        // Example: Code will break if we add 2 expenses with the same name, and then try to delete one of them
         key: UniqueKey(),
         background: Container(
           color: Colors.red,

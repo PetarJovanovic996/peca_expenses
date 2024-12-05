@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: Refactor => explained in [EditAppBar]
 class AddExpenseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;

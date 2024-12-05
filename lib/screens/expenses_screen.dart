@@ -25,23 +25,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      // done: Extract BottomNavBar and AppBar to separate files/ widgets
-      // The goal is to once someone opens a file, that he can instantly see what is happening
-      // in the widget tree. So good example would be something like :
-
-      // return Scaffold(
-      //     bottomNavigationBar: MyNavigationBar(),
-      //     appBar: MyAppBar(),
-      //     body: const Padding(
-      //         padding: EdgeInsets.only(top: 20.0),
-      //         child: ExpenseScreenContent(),
-      //       ),
-      // )
-      // This way we can see right away what's supposed to render and the entire screen is easy to read.
-
-      // Also, in bigger apps, bottom app bars and app bars are generally used in more than 1 screen,
-      // so it's always a good idea to have them extracted in a separate widget.
-
       bottomNavigationBar: MyNavigationBar(),
       appBar: MainAppBar(),
       body: Padding(

@@ -6,6 +6,7 @@ import 'package:peca_expenses/widgets/add_data_fields/amount_text_form_field.dar
 import 'package:peca_expenses/widgets/add_data_fields/category_dropdown_form_field.dart';
 import 'package:peca_expenses/widgets/add_data_fields/descr_text_form_field.dart';
 import 'package:peca_expenses/widgets/add_data_fields/name_text_form_field.dart';
+import 'package:peca_expenses/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
 // done: Widgets representing screens, should have a suffix "Screen" / "View"
@@ -16,7 +17,6 @@ class AddExpenseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // done: Improve code readability
     return Scaffold(
       appBar: const AddExpenseAppBar(),
       body: Padding(
@@ -26,17 +26,21 @@ class AddExpenseScreen extends StatelessWidget {
           // iz providera
           child: Column(
             children: [
-              const NameTextFormField()
+              const NameTextFormField(),
               //pitanje: nije pitanje, ali ovako da je univerzalno ime za komentar ovaj put :D
               // zeznuh se kod wrapping TextFormField / pa za svako prvo napravih odvojeni widget
               //neka ostane sad da ne brisem - a i urednije je :D
 
-              // done: Create a widget to serve as a wrapper for all [TextFormField],
-              // done: refactor everywhere where it's used.
-              //veci mi je to posa :D
-              // Get it done lil' nigga. :D
-              ,
-              // done: [context.watch]?
+              // Ok je skroz kako si odradio, ove mini wrappere za zasebna polja,
+              // al uglavnom je praksa da onda kad si napravio [CustomTextFormField]
+              // da ove preostale definises u istom fajlu dje ih koristis.
+              // Dakle mozes da prebacis ove [NameTextFormField] i [Descr..] da budu u ovaj fajl
+
+              // Zbog toga sto je tebi glavni widget tu [CustomTextFormField], ovi wrapperi su super
+              // i skroz je ok da se tako odradi, samo nema potrebe da ti budu u zaseban fajl i kao zaseban widget
+
+              // dodacu u dnu ovog fajla da vidis primjer, kako da ih prebacis.
+
               const DescrTextFormField(),
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -55,8 +59,6 @@ class AddExpenseScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    // done: Here we use [context.watch] since isSending will update it's value
-                    // and based on it's new value we need to re-render this button and update it's logic
                     onPressed: context.watch<ExpenseProvider>().isSending
                         ? null
                         : () {
@@ -106,5 +108,33 @@ class AddExpenseScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// TODO: Check example:
+// We can define it as a private widget [_] because it's just a helper wrapper,
+// specific for this screen, it probably won't be used in this same exact way in other places.
+class _NameTextFormField extends StatelessWidget {
+  const _NameTextFormField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomTextFormField(
+        keyboardType: TextInputType.text,
+        initialValue: context.read<ExpenseProvider>().enteredName,
+        maxLength: 50,
+        label: 'Name',
+        validator: (newValue) {
+          if (newValue == null ||
+              newValue.isEmpty ||
+              newValue.trim().length <= 1 ||
+              newValue.trim().length > 50) {
+            return 'Invalid input';
+          }
+          return null;
+        },
+        onChanged: (newValue) {
+          context.read<ExpenseProvider>().setEnteredName(newValue);
+        });
   }
 }

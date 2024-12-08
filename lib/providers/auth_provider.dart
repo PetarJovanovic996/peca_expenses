@@ -8,6 +8,7 @@ class AuthProvider extends ChangeNotifier {
   String password = '';
 
   User? user;
+  String? error;
 
   void setEmail(String email) {
     email = email;
@@ -35,7 +36,7 @@ class AuthProvider extends ChangeNotifier {
           email: email, password: password);
       user = _auth.currentUser;
       notifyListeners();
-    } catch (error) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -48,11 +49,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    // TODO: [.signOut] is a FirebaseService method, which does some logic by sending HTTP request to Firebase
-    // Like discussed before, every HTTP request can fail, always use try-catch blocks when sending HTTP requests.
-    await _auth.signOut();
-    user = null;
-    resetValues();
-    notifyListeners();
+    try {
+      // done: [.signOut] is a FirebaseService method, which does some logic by sending HTTP request to Firebase
+      // Like discussed before, every HTTP request can fail, always use try-catch blocks when sending HTTP requests.
+      await _auth.signOut();
+      user = null;
+      resetValues();
+      notifyListeners();
+    } catch (e) {
+      error = 'Failed to sing out. Try later';
+      notifyListeners();
+    }
   }
 }

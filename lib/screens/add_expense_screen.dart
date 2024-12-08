@@ -41,7 +41,7 @@ class AddExpenseScreen extends StatelessWidget {
 
               // dodacu u dnu ovog fajla da vidis primjer, kako da ih prebacis.
 
-              const DescrTextFormField(),
+              const DescriptionTextFormField(),
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

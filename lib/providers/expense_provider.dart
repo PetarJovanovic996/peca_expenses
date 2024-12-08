@@ -188,21 +188,24 @@ class ExpenseProvider extends ChangeNotifier {
   }
 // KRAJ LOADA
 
-  // TODO: Add try-catch in every place we have API communication, i.e HTTP requests.
-  void removeItem(ExpenseItem item) async {
-    final index = expenseItems.indexOf(item);
-    expenseItems.remove(item);
-    notifyListeners();
-    final url = Uri.https('expenses-acbaa-default-rtdb.firebaseio.com',
-        'peca_expenses/${item.id}.json');
+  // done: Add try-catch in every place we have API communication, i.e HTTP requests.
+  Future<void> removeItem(ExpenseItem item) async {
+    try {
+      final index = expenseItems.indexOf(item);
+      expenseItems.remove(item);
+      notifyListeners();
+      final url = Uri.https('expenses-acbaa-default-rtdb.firebaseio.com',
+          'peca_expenses/${item.id}.json');
 
-    final response = await http.delete(url);
-    if (response.statusCode >= 400) {
-      expenseItems.insert(index, item);
+      final response = await http.delete(url);
+      if (response.statusCode >= 400) {
+        expenseItems.insert(index, item);
+        notifyListeners();
+      }
+    } catch (e) {
+      error = 'Failed to remove data. Try later';
       notifyListeners();
     }
-
-    notifyListeners();
   }
 
   //

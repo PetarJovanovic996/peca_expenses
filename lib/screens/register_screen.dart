@@ -8,9 +8,9 @@ class RegisterScreen extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  // TODO: Activate format on save option inside Android Studio,
+  // done: Activate format on save option inside Android Studio,
 
-  // IMPORTANT TODO: Also, update the project to latest Flutter version, which adds new formatting.
+  // IMPORTANT DONE: Also, update the project to latest Flutter version, which adds new formatting.
 
   @override
   Widget build(BuildContext context) {

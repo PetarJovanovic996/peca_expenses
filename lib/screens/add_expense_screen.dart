@@ -118,7 +118,7 @@ class AddExpenseScreen extends StatelessWidget {
 // We can define it as a private widget [_] because it's just a helper wrapper,
 // specific for this screen, it probably won't be used in this same exact way in other places.
 class _NameTextFormField extends StatelessWidget {
-  const _NameTextFormField({super.key});
+  const _NameTextFormField();
 
   @override
   Widget build(BuildContext context) {

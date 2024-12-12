@@ -211,6 +211,8 @@ class ExpenseProvider extends ChangeNotifier {
   //
   //
   //EDIT
+  //pitanje: kad editujem i kliknem da sacuvam, na sekund na main skrin
+  //vidim neke dodatne / provjeriti edit funkc
   //
   //
 

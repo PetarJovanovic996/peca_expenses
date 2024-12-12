@@ -3,7 +3,7 @@ import 'package:peca_expenses/data/category.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
-import 'package:peca_expenses/widgets/app_bars/edit_app_bar.dart';
+import 'package:peca_expenses/widgets/app_bars/my_app_bar.dart';
 import 'package:peca_expenses/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 // import 'package:peca_expenses/providers/add_expense_provider.dart';
@@ -54,7 +54,9 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
     final index = context.read<ExpenseProvider>().editingIndex!;
     final item = context.read<ExpenseProvider>().expenseItems;
     return Scaffold(
-      appBar: const EditAppBar(),
+      appBar: const MyAppBar(
+        title: 'Edit Expense',
+      ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Form(

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
 import 'package:peca_expenses/widgets/add_data_fields/select_date_field.dart';
-import 'package:peca_expenses/widgets/app_bars/add_expense_app_bar.dart';
+
 import 'package:peca_expenses/widgets/add_data_fields/amount_text_form_field.dart';
 import 'package:peca_expenses/widgets/add_data_fields/category_dropdown_form_field.dart';
 import 'package:peca_expenses/widgets/add_data_fields/descr_text_form_field.dart';
 import 'package:peca_expenses/widgets/add_data_fields/name_text_form_field.dart';
+import 'package:peca_expenses/widgets/app_bars/my_app_bar.dart';
 import 'package:peca_expenses/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,9 @@ class AddExpenseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AddExpenseAppBar(),
+      appBar: const MyAppBar(
+        title: 'Add New Expense',
+      ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Form(

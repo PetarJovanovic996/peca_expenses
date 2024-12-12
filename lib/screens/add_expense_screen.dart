@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
-import 'package:peca_expenses/widgets/add_data_fields/select_date_field.dart';
-
-import 'package:peca_expenses/widgets/add_data_fields/amount_text_form_field.dart';
-import 'package:peca_expenses/widgets/add_data_fields/category_dropdown_form_field.dart';
-import 'package:peca_expenses/widgets/add_data_fields/descr_text_form_field.dart';
-import 'package:peca_expenses/widgets/add_data_fields/name_text_form_field.dart';
 import 'package:peca_expenses/widgets/app_bars/my_app_bar.dart';
 import 'package:peca_expenses/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
+import 'package:peca_expenses/models/date.dart';
+import 'package:peca_expenses/data/categories.dart';
 
 // done: Widgets representing screens, should have a suffix "Screen" / "View"
 class AddExpenseScreen extends StatelessWidget {
@@ -29,7 +25,7 @@ class AddExpenseScreen extends StatelessWidget {
           // iz providera
           child: Column(
             children: [
-              const NameTextFormField(),
+              const _NameTextFormField(),
               //pitanje: nije pitanje, ali ovako da je univerzalno ime za komentar ovaj put :D
               // zeznuh se kod wrapping TextFormField / pa za svako prvo napravih odvojeni widget
               //neka ostane sad da ne brisem - a i urednije je :D
@@ -44,20 +40,20 @@ class AddExpenseScreen extends StatelessWidget {
 
               // dodacu u dnu ovog fajla da vidis primjer, kako da ih prebacis.
 
-              const DescriptionTextFormField(),
+              const _DescriptionTextFormField(),
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: AmountTextFormField(),
+                    child: _AmountTextFormField(),
                   ),
                   SizedBox(width: 8),
                   Expanded(
-                    child: CategoryDropdownFormField(),
+                    child: _CategoryDropdownFormField(),
                   )
                 ],
               ),
-              const SelectDateField(),
+              const _SelectDateField(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -114,7 +110,7 @@ class AddExpenseScreen extends StatelessWidget {
   }
 }
 
-// TODO: Check example:
+// done: Check example:
 // We can define it as a private widget [_] because it's just a helper wrapper,
 // specific for this screen, it probably won't be used in this same exact way in other places.
 class _NameTextFormField extends StatelessWidget {
@@ -139,5 +135,133 @@ class _NameTextFormField extends StatelessWidget {
         onChanged: (newValue) {
           context.read<ExpenseProvider>().setEnteredName(newValue);
         });
+  }
+}
+
+class _DescriptionTextFormField extends StatelessWidget {
+  const _DescriptionTextFormField();
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomTextFormField(
+      keyboardType: TextInputType.text,
+      initialValue: context.read<ExpenseProvider>().enteredDescription,
+      maxLength: 50,
+      label: 'Description',
+      validator: (newValue) {
+        if (newValue == null ||
+            newValue.isEmpty ||
+            newValue.trim().length <= 1 ||
+            newValue.trim().length > 50) {
+          return 'Invalid input';
+        }
+        return null;
+      },
+      onChanged: (newValue) {
+        context
+            .read<ExpenseProvider>()
+            .setEnteredDescription(newValue); // iz providera
+      },
+    );
+  }
+}
+
+class _SelectDateField extends StatelessWidget {
+  const _SelectDateField();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(MyDateFormat.formatDate(
+              context.watch<ExpenseProvider>().selectedDate)),
+          // iz providera
+
+          const SizedBox(
+            height: 20,
+          ),
+          IconButton(
+            onPressed: () async {
+              final pickedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now().toLocal(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2101),
+              );
+              if (pickedDate != null) {
+                if (!context.mounted) {
+                  return;
+                }
+                context.read<ExpenseProvider>().setSelectedDate(pickedDate);
+              }
+            },
+            icon: const Icon(
+              Icons.calendar_month_outlined,
+              color: Color.fromARGB(255, 43, 5, 18),
+            ),
+          )
+        ]);
+  }
+}
+
+class _CategoryDropdownFormField extends StatelessWidget {
+  const _CategoryDropdownFormField();
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField(
+      value: context.watch<ExpenseProvider>().selectedCategory,
+      items: [
+        for (final category in categories.entries)
+          DropdownMenuItem(
+              value: category.value,
+              child: Row(
+                children: [
+                  Icon(
+                    category.value.icon.icon,
+                    color: const Color.fromARGB(255, 43, 5, 18),
+                  ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Text(category.value.title),
+                ],
+              ))
+      ],
+      onChanged: (newValue) {
+        context.read<ExpenseProvider>().setSelectedCategory(newValue!);
+      }, // iz providera
+    );
+  }
+}
+
+class _AmountTextFormField extends StatelessWidget {
+  const _AmountTextFormField();
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomTextFormField(
+      label: 'Amount',
+      keyboardType: TextInputType.number,
+      // done: [context.watch]?
+      initialValue:
+          context.read<ExpenseProvider>().enteredAmount, // iz providera
+      validator: (newValue) {
+        if (newValue == null ||
+            newValue.isEmpty ||
+            int.tryParse(newValue) == null ||
+            int.tryParse(newValue)! <= 0) {
+          return 'Invalid input';
+        }
+        return null;
+      },
+      onChanged: (newValue) {
+        context
+            .read<ExpenseProvider>()
+            .setEnteredAmount(newValue); // iz providera
+      },
+    );
   }
 }

@@ -3,33 +3,28 @@ import 'package:peca_expenses/main/routes.dart';
 import 'package:peca_expenses/models/date.dart';
 import 'package:peca_expenses/models/expense_item.dart';
 import 'package:peca_expenses/providers/expense_provider.dart';
-import 'package:peca_expenses/providers/filters_provider.dart';
 
 import 'package:provider/provider.dart';
 
 class ExpenseListItem extends StatelessWidget {
-  const ExpenseListItem({super.key, required this.index});
+  const ExpenseListItem({super.key});
 
-  // TODO: Instead of passing index to each [ExpenseListItem] and then reading again the
+  // done: Instead of passing index to each [ExpenseListItem] and then reading again the
   // provider's value, you can pass the object itself.
-  // TODO: Refactor
+  // done: Refactor
 
-  // BONUS: There is also a cleaner way. Google [Provider.value] and try to figure out
+  // done: There is also a cleaner way. Google [Provider.value] and try to figure out
   // how that can be fit here. If you use Provider.value, the right way, there is no need
   // to pass anything to [ExpenseListItem]
-  final int index;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Just a note: This should not be watch!
+    // done: Just a note: This should not be watch!
     // TIP: When writing logic, always try to write [context.read] first,
     // and if it's needed then use [watch]. Here we don't need watch.
 
-    final filteredItems = context.watch<FiltersProvider>().filteredExpenses;
-    final allItems = context.watch<ExpenseProvider>().expenseItems;
+    final expenseItem = Provider.of<ExpenseItem>(context);
 
-    final List<ExpenseItem> itemsToDisplay =
-        filteredItems.isNotEmpty ? filteredItems : allItems;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       padding: const EdgeInsets.all(1.0),
@@ -41,28 +36,28 @@ class ExpenseListItem extends StatelessWidget {
       ),
       child: ListTile(
           title: Text(
-            itemsToDisplay[index].name,
+            expenseItem.name,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(itemsToDisplay[index].description),
+              Text(expenseItem.description),
               Text(
-                MyDateFormat.formatDate(itemsToDisplay[index].date),
+                MyDateFormat.formatDate(expenseItem.date),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          leading: Icon(itemsToDisplay[index].category.icon.icon),
+          leading: Icon(expenseItem.category.icon.icon),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '\$${itemsToDisplay[index].amount}',
+                '\$${expenseItem.amount}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(
@@ -70,11 +65,12 @@ class ExpenseListItem extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () {
-                    // TODO: Follow new logic, first check [editExpense] comments,
+                    // pitanje: moramo edit zajedno proc
+                    //: Follow new logic, first check [editExpense] comments,
                     // I will update [edit_screen] and [add_expense_provider] by adding
                     // int? editingIndex;
 
-                    context.read<ExpenseProvider>().setEditingIndex(index);
+                    context.read<ExpenseProvider>().setEditingIndex;
 
                     Navigator.of(context).pushNamed(Routes.editExpense);
 

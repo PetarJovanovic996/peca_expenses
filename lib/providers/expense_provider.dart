@@ -71,7 +71,7 @@ class ExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO: Follow new implementation, read down below,
+  // done: Follow new implementation, read down below,
   // context no longer needed here.
   Future<bool> saveValues() async {
     isSending = true;
@@ -120,7 +120,7 @@ class ExpenseProvider extends ChangeNotifier {
       //   return false;
       // }
 
-      // TODO: Follow the new implementation.
+      // done: Follow the new implementation.
       // CHECK [add_expense] where we call saveValues
       // Note the function is no longer [void] it's a [bool]
 

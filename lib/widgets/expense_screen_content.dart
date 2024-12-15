@@ -14,9 +14,11 @@ class ExpenseScreenContent extends StatelessWidget {
     final allItems = context.watch<ExpenseProvider>().expenseItems;
     final isLoading = context.watch<ExpenseProvider>().isLoading;
     final hasError = context.watch<ExpenseProvider>().error != null;
+    final isFilterActive = context.watch<FiltersProvider>().isFilterActive;
 
-    final List<ExpenseItem> itemsToDisplay =
-        filteredItems.isNotEmpty ? filteredItems : allItems;
+    final List<ExpenseItem> itemsToDisplay = isFilterActive
+        ? (filteredItems.isEmpty ? [] : filteredItems)
+        : allItems;
 
     final isEmpty = itemsToDisplay.isEmpty;
 
@@ -27,9 +29,11 @@ class ExpenseScreenContent extends StatelessWidget {
     }
 
     if (isEmpty) {
-      // Just for cleaner code extract to custom widget, example given at the bottom of this file.
-      // Similarly as for _LoadingWidget
-      return const _EmptyWidget();
+      if (isFilterActive) {
+        return const _FilterEmptyWidget(); // Nema stavki nakon filtriranja
+      } else {
+        return const _EmptyWidget(); // Nema stavki, ali filter nije aktivan
+      }
     }
 
     if (hasError) {
@@ -82,6 +86,17 @@ class _LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(child: CircularProgressIndicator());
+  }
+}
+
+class _FilterEmptyWidget extends StatelessWidget {
+  const _FilterEmptyWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('There is no Expenses in selected dates'),
+    );
   }
 }
 

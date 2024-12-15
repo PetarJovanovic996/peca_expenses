@@ -15,7 +15,7 @@ import 'package:peca_expenses/models/expense_item.dart';
 
 //pitanje: kada zadam filter- datum za koji nemam def trosak
 // ne dobijam poruku - nema troskova
-// ...nista se ne desi / prikazuju se svi troskovi
+// ...nista se ne desi / prikazuju se svi troskovi --Rijesio
 
 class FiltersProvider with ChangeNotifier {
   DateTime? fromDate;
@@ -23,6 +23,10 @@ class FiltersProvider with ChangeNotifier {
   DateTime? selectedDate;
 
   List<ExpenseItem> filteredExpenses = [];
+
+  bool get isFilterActive {
+    return fromDate != null || toDate != null || selectedDate != null;
+  }
 
   void filterByRange(List<ExpenseItem> expenseItems) {
     filteredExpenses = expenseItems.where((expense) {

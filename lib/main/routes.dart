@@ -8,15 +8,7 @@ import 'package:peca_expenses/screens/register_screen.dart';
 
 // Routes always separate words by -
 // add-new, login-screen
-//pitanje: Samo potvrda
-//Treba li mi onda ovo routes {}...
-// final Map<String, WidgetBuilder> routes = {
-//   'expenses': (context) => const ExpensesScreen(),
-//   'filter': (context) => const FiltersScreen(),
-//   'add-new': (context) => AddExpenseScreen(),
-//   'login-screen': (context) => LoginScreen(),
-//   'register': (context) => RegisterScreen()
-// };
+
 // This is good but when routing to named routes, we can make typos when typing,
 // and so there is even a better way to do it:
 

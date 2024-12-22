@@ -30,11 +30,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Named Routes',
         onGenerateRoute: MyRouter.onGenerateRoute,
-        // initialRoute: 'expenses',
-        //'loginscreen', //dodati logIn skrin i kao initial
-        //
-        //
-        // routes: routes,
       ),
     );
   }

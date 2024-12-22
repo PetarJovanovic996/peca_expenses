@@ -19,6 +19,7 @@ class ExpenseProvider extends ChangeNotifier {
   var enteredDescription = '';
   var enteredAmount = '';
   DateTime selectedDate = DateTime.now();
+  // var selectedCategory = categories2.last;
   var selectedCategory = categories[Categories.other]!;
   var isSending = false;
 
@@ -248,7 +249,7 @@ class ExpenseProvider extends ChangeNotifier {
       notifyListeners();
       //pitanje: ovo dolje izbrisah jer se return true valjda nalazi na kraju koda
       // ako ostane ovdje svakako kod ispod je onda dead code
-      //return true;
+      // return true;
       int index = expenseItems.indexWhere((e) => e.id == item.id);
       if (index != -1) {
         //expenseItems[index] = item; // Ažuriraj u firebase

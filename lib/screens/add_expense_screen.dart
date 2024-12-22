@@ -26,10 +26,6 @@ class AddExpenseScreen extends StatelessWidget {
           child: Column(
             children: [
               const _NameTextFormField(),
-              //pitanje: nije pitanje, ali ovako da je univerzalno ime za komentar ovaj put :D
-              // zeznuh se kod wrapping TextFormField / pa za svako prvo napravih odvojeni widget
-              //neka ostane sad da ne brisem - a i urednije je :D
-
               // Ok je skroz kako si odradio, ove mini wrappere za zasebna polja,
               // al uglavnom je praksa da onda kad si napravio [CustomTextFormField]
               // da ove preostale definises u istom fajlu dje ih koristis.
@@ -214,12 +210,15 @@ class _CategoryDropdownFormField extends StatelessWidget {
     return DropdownButtonFormField(
       value: context.watch<ExpenseProvider>().selectedCategory,
       items: [
+        // for (final category in categories2)
         for (final category in categories.entries)
           DropdownMenuItem(
+              // value: category,
               value: category.value,
               child: Row(
                 children: [
                   Icon(
+                    // category.icon.icon,
                     category.value.icon.icon,
                     color: const Color.fromARGB(255, 43, 5, 18),
                   ),
@@ -227,6 +226,7 @@ class _CategoryDropdownFormField extends StatelessWidget {
                     width: 6,
                   ),
                   Text(category.value.title),
+                  // Text(toFirstUpperLetter(category.title)),
                 ],
               ))
       ],
@@ -236,6 +236,11 @@ class _CategoryDropdownFormField extends StatelessWidget {
     );
   }
 }
+
+// String toFirstUpperLetter(String input) {
+//   String firstLetter = input.substring(0, 1);
+//   return firstLetter.toUpperCase() + input.substring(1);
+// }
 
 class _AmountTextFormField extends StatelessWidget {
   const _AmountTextFormField();

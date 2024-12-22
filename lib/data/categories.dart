@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:peca_expenses/data/category.dart';
 
-// TODO: Simpler way is to create a list of categories, instead of a map
-// TODO: e.g
 // Categories.food: Category(
 //     title: 'Food',
 //     icon: Icon(
@@ -18,10 +16,6 @@ import 'package:peca_expenses/data/category.dart';
 //       Icons.local_pizza_outlined,
 //     ),
 //   ),
-
-//pitanje: Sve sam dodao - pocinjalo mi je malim slovom u padajucem meniju
-// gubilo mi se povezivanje sa gitom pa vratih
-// DA Prodjemo zajedno
 
 // When searching for a specific category, you can look up by title matching the enum.
 const categories = {
@@ -54,3 +48,37 @@ const categories = {
     icon: Icon(Icons.radio_button_unchecked_rounded),
   ),
 };
+
+// Categories.food => Categories.food
+// Categories.food.name => food,
+
+// final categories2 = [
+//   Category(
+//     title: Categories.food.name,
+//     icon: Icon(Icons.local_pizza_outlined),
+//   ),
+//   Category(
+//     title: Categories.bills.name,
+//     icon: Icon(Icons.electrical_services),
+//   ),
+//   Category(
+//     title: Categories.rent.name,
+//     icon: Icon(Icons.house),
+//   ),
+//   Category(
+//     title: Categories.sport.name,
+//     icon: Icon(Icons.sports_gymnastics_sharp),
+//   ),
+//   Category(
+//     title: Categories.clothes.name,
+//     icon: Icon(Icons.shopping_bag_outlined),
+//   ),
+//   Category(
+//     title: Categories.nightOut.name,
+//     icon: Icon(Icons.wine_bar_rounded),
+//   ),
+//   Category(
+//     title: Categories.other.name,
+//     icon: Icon(Icons.radio_button_unchecked_rounded),
+//   ),
+// ];

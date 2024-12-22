@@ -143,6 +143,8 @@ class ExpenseProvider extends ChangeNotifier {
 //LOAD
   // done: Remove this context, as it is not used anywhere in the method call
   void loadItems() async {
+    // isLoading = true;
+    // notifyListeners();
     final url = Uri.https(
         'expenses-acbaa-default-rtdb.firebaseio.com', 'peca_expenses.json');
     try {
@@ -209,14 +211,6 @@ class ExpenseProvider extends ChangeNotifier {
     }
   }
 
-  //
-  //
-  //EDIT
-  //pitanje: kad editujem i kliknem da sacuvam, na sekund na main skrin
-  //vidim neke dodatne / provjeriti edit funkc
-  //
-  //
-
 // ovdje je UPDATE u firebase
 
   Future<bool> updateExpense(ExpenseItem item) async {
@@ -244,58 +238,14 @@ class ExpenseProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     } else {
-      expenseItems.insert(editingIndex!, item);
+      // final niz = [1, 2, 3, 4]
+      // niz.insert(2, 10);
+      // [1, 2, 10, 3, 4]
+
+      expenseItems[editingIndex!] = item;
 
       notifyListeners();
-      //pitanje: ovo dolje izbrisah jer se return true valjda nalazi na kraju koda
-      // ako ostane ovdje svakako kod ispod je onda dead code
-      // return true;
-      int index = expenseItems.indexWhere((e) => e.id == item.id);
-      if (index != -1) {
-        //expenseItems[index] = item; // Ažuriraj u firebase
-
-        expenseItems.insert(editingIndex!, item);
-
-        notifyListeners();
-        return true;
-      }
-
-      return false;
+      return true;
     }
   }
-  // done: Fix this, not good,
-  // editExpense is not needed here,
-  // Clicking on "Edit" icon, we should only navigate to "EditExpenseScreen", all other logic should
-  // be taken care of somewhere else.
-
-  // done: Since we are using named routes, google how to pass arguments to named routes,
-  // If you defined Named routes in your project, it's not a good idea to have [push(..)] anywhere in the code
-  // as it can lead to bugs.
-
-  // pitanje: ovo sam nedje pitao ja mislim / ovo mi je neki prosli kod,
-  //ovo samo brisem ja mislim, nista mi ne radi?
-
-  // void editExpense(ExpenseItem item, BuildContext context) {
-  //   Navigator.of(context)
-  //       .push(
-  //     MaterialPageRoute(
-  //       builder: (context) => const EditExpenseScreen(),
-  //     ),
-  //   )
-  //       .then((updatedItem) {
-  //     if (updatedItem != null) {
-  //       if (!context.mounted) {
-  //         return;
-  //       }
-  //       updateExpense(updatedItem);
-  //       notifyListeners();
-  //     }
-  //     notifyListeners();
-  //   });
-  // }
-
-  //KRAJ EDIT I UPDATE
-  //
-  //
-  //
 }

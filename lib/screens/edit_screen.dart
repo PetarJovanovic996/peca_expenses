@@ -180,23 +180,16 @@ class EditExpenseScreenState extends State<EditExpenseScreen> {
                   ),
                 ],
               ),
+              if (context.watch<ExpenseProvider>().error != null)
+                Text(
+                  context.watch<ExpenseProvider>().error.toString(),
+                  style: TextStyle(color: Colors.red),
+                ),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
                     final updatedItem = ExpenseItem(
-                      // pitanje: moram read/ovat id , jer kad ovo maknem ne cita nijedan
-                      //id sa fireabse vec pravi novi sa NULL vrijednosti
                       id: item[index].id,
-
-                      //pitanje:
-                      //jeba si mi majku za edit nesto - ovo sam jedino uspio da ga ovako fixam
-
-                      // done: id should not be added when creating new object, firebase will add it for you
-                      //pitanje: kad ga izmijenim i kliknem save
-                      //na firebase pravi potpuno novi objekat / ne edituje izabrani
-                      //nakon toga samo taj isti mijenja / sto god izabrao
-                      //a na firebase pokazuje null ID
-                      //id: id,
                       name: name,
                       description: description,
                       amount: amount,

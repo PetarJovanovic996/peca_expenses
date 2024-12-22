@@ -72,7 +72,7 @@ class ExpenseScreenContent extends StatelessWidget {
         ), // done: Extract single list item as a separate widget
         child: Provider.value(
           value: itemsToDisplay[index],
-          child: ExpenseListItem(),
+          child: ExpenseListItem(index: index),
         ),
       ),
     );

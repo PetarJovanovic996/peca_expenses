@@ -7,7 +7,9 @@ import 'package:peca_expenses/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseListItem extends StatelessWidget {
-  const ExpenseListItem({super.key});
+  const ExpenseListItem({required this.index, super.key});
+
+  final int index;
 
   // done: Instead of passing index to each [ExpenseListItem] and then reading again the
   // provider's value, you can pass the object itself.
@@ -65,12 +67,11 @@ class ExpenseListItem extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () {
-                    // pitanje: moramo edit zajedno proc
                     //: Follow new logic, first check [editExpense] comments,
                     // I will update [edit_screen] and [add_expense_provider] by adding
                     // int? editingIndex;
 
-                    context.read<ExpenseProvider>().setEditingIndex;
+                    context.read<ExpenseProvider>().setEditingIndex(index);
 
                     Navigator.of(context).pushNamed(Routes.editExpense);
 

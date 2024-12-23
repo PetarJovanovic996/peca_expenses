@@ -46,22 +46,67 @@ class FiltersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void filterExpenses(List<ExpenseItem> expenseItems) {
-  //   filteredExpenses = expenseItems.where((expense) {
-  //     bool isInRange = (fromDate == null || expense.date.isAfter(fromDate!)) &&
-  //         (toDate == null || expense.date.isBefore(toDate!));
-  //     bool isExactDate =
-  //         selectedDate != null && expense.date.isAtSameMomentAs(selectedDate!);
+  void filterByCurrentWeek(List<ExpenseItem> expenseItems) {
+    DateTime now = DateTime.now();
+    int currentWeekday = now.weekday;
 
-  //     return isInRange || isExactDate;
-  //   }).toList();
+    DateTime startOfWeek = now.subtract(Duration(days: currentWeekday - 1));
 
-  //   notifyListeners();
-  // }
+    DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
+
+    filteredExpenses = expenseItems.where((expense) {
+      bool isInCurrentWeek =
+          expense.date.isAfter(startOfWeek) && expense.date.isBefore(endOfWeek);
+      return isInCurrentWeek;
+    }).toList();
+
+    notifyListeners();
+  }
+
+  void filterByCurrentMonth(List<ExpenseItem> expenseItems) {
+    DateTime now = DateTime.now();
+
+    DateTime startOfMonth = DateTime(now.year, now.month, 1);
+    DateTime endOfMonth =
+        DateTime(now.year, now.month + 1, 1).subtract(Duration(days: 1));
+
+    filteredExpenses = expenseItems.where((expense) {
+      bool isInCurrentMonth =
+          expense.date.isAfter(startOfMonth.subtract(Duration(days: 1))) &&
+              expense.date.isBefore(endOfMonth.add(Duration(days: 1)));
+      return isInCurrentMonth;
+    }).toList();
+
+    notifyListeners();
+  }
 
   void setSelectedDate(DateTime date) {
     selectedDate = date;
 
+    notifyListeners();
+  }
+
+  void setTodaysDate() {
+    selectedDate = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    notifyListeners();
+  }
+
+  void setThisWeek() {
+    DateTime now = DateTime.now();
+    int currentWeekday = now.weekday;
+    fromDate = now.subtract(Duration(days: currentWeekday - 1));
+    toDate = fromDate!.add(Duration(days: 6));
+    notifyListeners();
+  }
+
+  void setThisMonth() {
+    DateTime now = DateTime.now();
+    fromDate = DateTime(now.year, now.month, 1);
+    toDate = DateTime(now.year, now.month + 1, 1).subtract(Duration(days: 1));
     notifyListeners();
   }
 
